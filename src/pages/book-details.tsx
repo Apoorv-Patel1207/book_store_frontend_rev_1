@@ -180,9 +180,9 @@ const BookDetails = () => {
       return
     }
 
-    if (book && newQuantity > book?.stockQuantity) {
+    if (book && newQuantity > book?.stock_quantity) {
       setQuantityError(
-        `Quantity exceeds the available stock of ${book?.stockQuantity}.`,
+        `Quantity exceeds the available stock of ${book?.stock_quantity}.`,
       )
       setQuantity(newQuantity)
       return
@@ -232,7 +232,7 @@ const BookDetails = () => {
         <Grid container spacing={2}>
           <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ position: "relative" }}>
-              {book.stockQuantity < 1 && (
+              {book.stock_quantity < 1 && (
                 <Box
                   sx={{
                     position: "absolute",
@@ -260,7 +260,7 @@ const BookDetails = () => {
                 alt={book.title}
                 component='img'
                 height='300'
-                image={book.coverImage}
+                image={book.cover_image}
                 sx={{
                   objectFit: "cover",
                   zIndex: 0,
@@ -297,10 +297,10 @@ const BookDetails = () => {
                 marginTop={2}
                 variant={isMobile ? "h6" : "h5"}
               >
-                Price: ₹ {book.price.toFixed(2)}
+                Price: ₹ {book.price}
               </Typography>
 
-              {book.stockQuantity < 11 && book.stockQuantity > 0 && (
+              {book.stock_quantity < 11 && book.stock_quantity > 0 && (
                 <Typography
                   sx={{
                     color: "error.main",
@@ -309,7 +309,7 @@ const BookDetails = () => {
                     fontSize: "12px",
                   }}
                 >
-                  Only {book.stockQuantity} left in stock!
+                  Only {book.stock_quantity} left in stock!
                 </Typography>
               )}
 
@@ -334,19 +334,19 @@ const BookDetails = () => {
               alignItems: isMobile ? "stretch" : "center",
             }}
           >
-            {book.stockQuantity < 1 && (
+            {book.stock_quantity < 1 && (
               <Typography color='red'>
                 The book is not available currently
               </Typography>
             )}
 
-            {!userID && book.stockQuantity > 1 && (
+            {!userID && book.stock_quantity > 1 && (
               <Typography color='red'>
                 Please log in to proceed with the purchase.
               </Typography>
             )}
 
-            {userID && book.stockQuantity > 0 && (
+            {userID && book.stock_quantity > 0 && (
               <Box
                 sx={{
                   display: "flex",

@@ -63,6 +63,8 @@ function Learning() {
   // Profile API calling multiple times
   // Cart page rerendering infinite Loop
   // Text field quantity Validation
+  //  changing all the api variables from the camel case to lower snake case
+  // the decimal value by default turns to string value while receiveing from the backend in the json
 
   // ---------Bugs----------
   // showing up 2 cards of the same book when searched

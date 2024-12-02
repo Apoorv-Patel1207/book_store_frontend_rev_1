@@ -120,14 +120,14 @@ const OrderHistoryPage = () => {
                           <TableCell>
                             <Avatar
                               alt={book.title}
-                              src={book.coverImage}
+                              src={book.cover_image}
                               sx={{ width: 56, height: 56 }}
                               variant='rounded'
                             />
                           </TableCell>
                           <TableCell>{book.title}</TableCell>
                           <TableCell>{book.author}</TableCell>
-                          <TableCell>₹ {book.price.toFixed(2)}</TableCell>
+                          <TableCell>₹ {book.price}</TableCell>
                           <TableCell>{book.quantity}</TableCell>
                           <TableCell>
                             ₹ {(book.price * book.quantity).toFixed(2)}

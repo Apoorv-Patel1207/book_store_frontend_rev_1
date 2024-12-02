@@ -26,16 +26,19 @@ const UpdateBookModal: React.FC<UpdateBookModalProps> = ({
   onClose,
   handleUpdateBook,
 }) => {
-  const [price, setPrice] = useState(book.price)
-  const [stockQuantity, setStockQuantity] = useState(book.stockQuantity)
+  const [price, setPrice] = useState<number>(book.price)
+  const [stockQuantity, setStockQuantity] = useState<number>(
+    book.stock_quantity,
+  )
   const [loading, setLoading] = useState(false)
 
   const handleUpdate = async () => {
     setLoading(true)
+
     try {
       const updatedBook = (await updateBook(book.id, {
         price,
-        stockQuantity,
+        stock_quantity: stockQuantity,
       })) as Book
       handleUpdateBook(updatedBook)
       onClose() // Close the modal

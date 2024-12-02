@@ -50,7 +50,7 @@ const ConfirmPurchaseDialog = ({
           alt={book.title}
           component='img'
           height='150'
-          image={book.coverImage}
+          image={book.cover_image}
           sx={{ objectFit: "cover", borderRadius: 2, mb: 2 }}
         />
         <Typography fontWeight='bold' variant='h6'>

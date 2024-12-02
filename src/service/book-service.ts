@@ -1,6 +1,6 @@
-import { Book } from "../types/data-types";
+import { Book } from "../types/data-types"
 
-const API_URL = "http://localhost:5000/api/books";
+const API_URL = "http://localhost:5000/api/books"
 
 // Fetch all books with pagination
 // export const fetchBooks = async (
@@ -18,24 +18,24 @@ export const fetchBooks = async (
   searchQuery: string,
   filterGenre: string,
   priceMin: number,
-  priceMax: number
+  priceMax: number,
 ): Promise<Book[]> => {
-  const url = `/api/books?page=${page}&limit=${limit}&searchQuery=${searchQuery}&filterGenre=${filterGenre}&priceMin=${priceMin}&priceMax=${priceMax}`;
-  const response = await fetch(url);
+  const url = `/api/books?page=${page}&limit=${limit}&searchQuery=${searchQuery}&filterGenre=${filterGenre}&priceMin=${priceMin}&priceMax=${priceMax}`
+  const response = await fetch(url)
   if (!response.ok) {
-    throw new Error("Failed to fetch books");
+    throw new Error("Failed to fetch books")
   }
-  return (await response.json()) as Book[];
-};
+  return (await response.json()) as Book[]
+}
 
 // Fetch a single book by ID
 export const fetchBookById = async (id: number): Promise<Book> => {
-  const response = await fetch(`${API_URL}/${id}`);
+  const response = await fetch(`${API_URL}/${id}`)
   if (!response.ok) {
-    throw new Error("Failed to fetch book");
+    throw new Error("Failed to fetch book")
   }
-  return (await response.json()) as Book;
-};
+  return (await response.json()) as Book
+}
 
 // Add a new book
 export const addBook = async (book: Book): Promise<Book> => {
@@ -45,16 +45,16 @@ export const addBook = async (book: Book): Promise<Book> => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(book),
-  });
+  })
   if (!response.ok) {
-    throw new Error("Failed to add book");
+    throw new Error("Failed to add book")
   }
-  return (await response.json()) as Book;
-};
+  return (await response.json()) as Book
+}
 
 export const updateBook = async (
   id: number,
-  data: { price: number; stockQuantity: number }
+  data: { price: number; stock_quantity: number },
 ) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PUT",
@@ -62,22 +62,22 @@ export const updateBook = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-  });
+  })
 
   if (!response.ok) {
-    throw new Error("Failed to update the book");
+    throw new Error("Failed to update the book")
   }
 
-  return response.json();
-};
+  return response.json()
+}
 
 // Delete a book by ID
 export const deleteBook = async (id: number): Promise<Book> => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
-  });
+  })
   if (!response.ok) {
-    throw new Error("Failed to delete book");
+    throw new Error("Failed to delete book")
   }
-  return (await response.json()) as Book;
-};
+  return (await response.json()) as Book
+}

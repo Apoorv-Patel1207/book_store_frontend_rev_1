@@ -19,7 +19,7 @@ interface CartItemProps {
   author: string
   price: number
   quantity: number
-  stockQuantity: number
+  stock_quantity: number
   handleRemove: (id: number) => void
   updateCartQuantity: (id: number, quantity: number) => void
 }
@@ -30,7 +30,7 @@ const CartItem = ({
   author,
   price,
   quantity,
-  stockQuantity,
+  stock_quantity,
   handleRemove,
   updateCartQuantity,
 }: CartItemProps) => {
@@ -47,13 +47,13 @@ const CartItem = ({
 
   // Handle increment action
   const handleIncrement = () => {
-    if (itemQuantity < stockQuantity) {
+    if (itemQuantity < stock_quantity) {
       const newQuantity = itemQuantity + 1
       setItemQuantity(newQuantity) // Update UI immediately
       debouncedUpdateQuantity(id, newQuantity) // Debounced API call
       setError("")
     } else {
-      setError(`Maximum available stock is ${stockQuantity}`)
+      setError(`Maximum available stock is ${stock_quantity}`)
     }
   }
 
@@ -94,7 +94,7 @@ const CartItem = ({
           </IconButton>
           <Typography>{itemQuantity}</Typography>
           <IconButton
-            disabled={itemQuantity >= stockQuantity}
+            disabled={itemQuantity >= stock_quantity}
             onClick={handleIncrement}
           >
             <AddIcon />

@@ -4,14 +4,14 @@ export interface Book {
   author: string
   genre: string
   price: number
-  coverImage: string
+  cover_image: string
   description: string
-  publicationDate: string
+  publication_date: string
   ISBN: string
   language: string
   pages: number
   publisher: string
-  stockQuantity: number
+  stock_quantity: number
   status?: "pending" | "approved" | "rejected"
 }
 

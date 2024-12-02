@@ -26,11 +26,13 @@ interface BookCardProps {
 }
 
 const BookCard = (props: BookCardProps) => {
+  const { book, handleDelete, handleUpdateBook } = props
+  console.log("book: ", book)
+
   const { userData } = useUser()
 
   const isAdmin = userData?.role === "admin"
 
-  const { book, handleDelete, handleUpdateBook } = props
   const navigate = useNavigate()
   const [openDialog, setOpenDialog] = useState(false)
   const [openUpdateModal, setOpenUpdateModal] = useState(false)
@@ -92,7 +94,7 @@ const BookCard = (props: BookCardProps) => {
           },
         }}
       >
-        {book.stockQuantity < 1 && (
+        {book.stock_quantity < 1 && (
           <Box
             sx={{
               position: "absolute",
@@ -162,7 +164,7 @@ const BookCard = (props: BookCardProps) => {
             alt={book.title}
             component='img'
             height='200'
-            image={book.coverImage}
+            image={book.cover_image}
             sx={{
               transition: "transform 0.3s",
               "&:hover": {
@@ -173,7 +175,7 @@ const BookCard = (props: BookCardProps) => {
         </Box>
 
         <CardContent>
-          {book.stockQuantity < 11 && book.stockQuantity > 0 && (
+          {book.stock_quantity < 11 && book.stock_quantity > 0 && (
             <Typography
               sx={{
                 color: "error.main",
@@ -183,7 +185,7 @@ const BookCard = (props: BookCardProps) => {
                 position: "absolute",
               }}
             >
-              Only {book.stockQuantity} left in stock!
+              Only {book.stock_quantity} left in stock!
             </Typography>
           )}
           <Typography
@@ -226,7 +228,7 @@ const BookCard = (props: BookCardProps) => {
             Genre: {book.genre}
           </Typography>
           <Typography color='success.main' fontWeight='bold'>
-            ₹ {book.price.toFixed(2)}
+            ₹ {book.price}
           </Typography>
         </CardContent>
       </Card>
