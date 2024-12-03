@@ -78,6 +78,8 @@ function Learning() {
   // Admin should have all the order details within its Panel
   // Fix the issue with accessing the tabs with the direct providing the URL
 
+  // back from cart
+
   return (
     <Layout>
       <Box sx={{ padding: 4 }}>

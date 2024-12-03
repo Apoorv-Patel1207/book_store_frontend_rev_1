@@ -10,14 +10,14 @@ import {
   DialogActions,
   Button,
 } from "@mui/material"
-import { UserProfile } from "src/types/data-types"
+import { ApiResponseUserProfile } from "src/types/data-types"
 
 interface CartConfirmPurchaseDailogProps {
   isCheckoutModalOpen: boolean
   handleCloseCheckoutModal: () => void
   totalCost: number
-  userProfile: UserProfile | null
-  setUserProfile: (value: SetStateAction<UserProfile | null>) => void
+  userProfile: ApiResponseUserProfile | null
+  setUserProfile: (value: SetStateAction<ApiResponseUserProfile | null>) => void
   handleConfirmBuy: () => Promise<void>
   isPlacingOrder: boolean
 }

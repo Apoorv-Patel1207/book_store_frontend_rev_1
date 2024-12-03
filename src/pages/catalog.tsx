@@ -96,7 +96,7 @@ const Catalog = () => {
   const handleDelete = async (id: number) => {
     try {
       await deleteBook(id)
-      setBooks((prevBooks) => prevBooks.filter((book) => book.id !== id))
+      setBooks((prevBooks) => prevBooks.filter((book) => book.book_id !== id))
     } catch (error) {
       console.error("Error deleting book:", error)
     }
@@ -105,7 +105,7 @@ const Catalog = () => {
   const handleUpdateBook = (updatedBook: Book) => {
     setBooks((prevBooks) =>
       prevBooks.map((book) =>
-        book.id === updatedBook.id ? updatedBook : book,
+        book.book_id === updatedBook.book_id ? updatedBook : book,
       ),
     )
   }
@@ -183,7 +183,7 @@ const Catalog = () => {
         {books.length > 0
           ? books.map((book) => (
               <Grid
-                key={book.id}
+                key={book.book_id}
                 size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2.4 }}
               >
                 <BookCard

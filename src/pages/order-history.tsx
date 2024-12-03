@@ -116,7 +116,7 @@ const OrderHistoryPage = () => {
                     </TableHead>
                     <TableBody>
                       {order.items.map((book) => (
-                        <TableRow key={book.id}>
+                        <TableRow key={book.book_id}>
                           <TableCell>
                             <Avatar
                               alt={book.title}

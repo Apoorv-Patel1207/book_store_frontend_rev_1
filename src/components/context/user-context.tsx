@@ -1,11 +1,11 @@
 // /src/context/UserContext.tsx
 import { createContext, useContext, useState, ReactNode, useMemo } from "react"
 
-import { UserProfile } from "src/types/data-types"
+import { ApiResponseUserProfile } from "src/types/data-types"
 
 interface UserContextType {
-  userData: UserProfile | null
-  setUserData: (data: UserProfile | null) => void
+  userData: ApiResponseUserProfile | null
+  setUserData: (data: ApiResponseUserProfile | null) => void
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined)
@@ -23,7 +23,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [userData, setUserData] = useState<UserProfile | null>(null)
+  const [userData, setUserData] = useState<ApiResponseUserProfile | null>(null)
 
   const value = useMemo(() => ({ userData, setUserData }), [userData])
 

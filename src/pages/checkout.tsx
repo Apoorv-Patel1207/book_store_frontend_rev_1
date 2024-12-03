@@ -112,7 +112,7 @@ const Checkout = () => {
               </TableHead>
               <TableBody>
                 {order?.items.map((item) => {
-                  const { id: bookID, title, quantity, price } = item
+                  const { book_id: bookID, title, quantity, price } = item
                   const subtotal = quantity * price
                   return (
                     <TableRow key={bookID}>

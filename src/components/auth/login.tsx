@@ -16,8 +16,6 @@ const LoginButton = () => {
     useAuth0()
   const navigate = useNavigate()
 
-  console.log("user", user)
-
   const navigateToProfile = () => {
     navigate("/profile")
   }

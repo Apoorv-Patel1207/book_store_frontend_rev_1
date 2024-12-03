@@ -41,7 +41,7 @@ const BookCard = (props: BookCardProps) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   const handleCardClick = () => {
-    navigate(`/book-details/${book.id}`)
+    navigate(`/book-details/${book.book_id}`)
   }
 
   const openDeleteDialog = (e: React.MouseEvent) => {
@@ -54,7 +54,7 @@ const BookCard = (props: BookCardProps) => {
   }
 
   const confirmDelete = () => {
-    handleDelete(book.id)
+    handleDelete(book.book_id)
     setOpenDialog(false)
   }
 

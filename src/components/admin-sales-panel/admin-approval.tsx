@@ -41,8 +41,8 @@ const AdminApproval = () => {
 
   const handleApprove = async (bookId: number) => {
     await approveBook(bookId)
-    setPendingBooks(pendingBooks.filter((book) => book.id !== bookId))
-    const approvedBook = pendingBooks.find((book) => book.id === bookId)
+    setPendingBooks(pendingBooks.filter((book) => book.book_id !== bookId))
+    const approvedBook = pendingBooks.find((book) => book.book_id === bookId)
     if (approvedBook) {
       setApprovedBooks([
         ...approvedBooks,
@@ -53,8 +53,8 @@ const AdminApproval = () => {
 
   const handleReject = async (bookId: number) => {
     await rejectBook(bookId)
-    setPendingBooks(pendingBooks.filter((book) => book.id !== bookId))
-    const rejectedBook = pendingBooks.find((book) => book.id === bookId)
+    setPendingBooks(pendingBooks.filter((book) => book.book_id !== bookId))
+    const rejectedBook = pendingBooks.find((book) => book.book_id === bookId)
     if (rejectedBook) {
       setRejectedBooks([
         ...rejectedBooks,
@@ -96,7 +96,7 @@ const AdminApproval = () => {
             </TableHead>
             <TableBody>
               {books.map((book) => (
-                <TableRow key={book.id}>
+                <TableRow key={book.book_id}>
                   <TableCell>{book.title}</TableCell>
                   <TableCell>{book.author}</TableCell>
                   <TableCell>{book.genre}</TableCell>
@@ -105,7 +105,7 @@ const AdminApproval = () => {
                     <TableCell align='center'>
                       <Button
                         color='success'
-                        onClick={() => handleApprove(book.id)}
+                        onClick={() => handleApprove(book.book_id)}
                         sx={{ mr: 1 }}
                         variant='contained'
                       >
@@ -113,7 +113,7 @@ const AdminApproval = () => {
                       </Button>
                       <Button
                         color='error'
-                        onClick={() => handleReject(book.id)}
+                        onClick={() => handleReject(book.book_id)}
                         variant='outlined'
                       >
                         Reject

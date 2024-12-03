@@ -36,7 +36,7 @@ const UpdateBookModal: React.FC<UpdateBookModalProps> = ({
     setLoading(true)
 
     try {
-      const updatedBook = (await updateBook(book.id, {
+      const updatedBook = (await updateBook(book.book_id, {
         price,
         stock_quantity: stockQuantity,
       })) as Book

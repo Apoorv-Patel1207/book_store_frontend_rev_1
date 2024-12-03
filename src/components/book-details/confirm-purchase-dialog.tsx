@@ -13,17 +13,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import { Book, UserProfile } from "src/types/data-types"
+import { Book, ApiResponseUserProfile } from "src/types/data-types"
 
 interface ConfirmPurchaseDialogProps {
   isModalOpen: boolean
   handleCloseModal: () => void
   book: Book
   quantity: number
-  userProfile: UserProfile | null
+  userProfile: ApiResponseUserProfile | null
   isPlacingOrder: boolean
   handleConfirmBuy: () => Promise<void>
-  setUserProfile: (value: SetStateAction<UserProfile | null>) => void
+  setUserProfile: (value: SetStateAction<ApiResponseUserProfile | null>) => void
 }
 
 const ConfirmPurchaseDialog = ({
@@ -62,7 +62,7 @@ const ConfirmPurchaseDialog = ({
         <Divider sx={{ my: 2, width: "100%" }} />
         <Typography variant='body1'>Quantity: {quantity}</Typography>
         <Typography gutterBottom variant='body1'>
-          Total: ₹ {(book.price * quantity)}
+          Total: ₹ {book.price * quantity}
         </Typography>
       </Box>
       <Box

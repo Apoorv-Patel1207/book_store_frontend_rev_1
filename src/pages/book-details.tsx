@@ -23,7 +23,12 @@ import { getUserProfile } from "src/service/user-profile-service"
 import Layout from "../components/layout/layout"
 import { addToCart } from "../service/cart-service"
 import { placeOrder } from "../service/order-service"
-import { Book, CartItem, Order, UserProfile } from "../types/data-types"
+import {
+  Book,
+  CartItem,
+  Order,
+  ApiResponseUserProfile,
+} from "../types/data-types"
 
 const BookDetails = () => {
   const { id } = useParams<{ id: string }>()
@@ -32,7 +37,9 @@ const BookDetails = () => {
   const [error, setError] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
+  const [userProfile, setUserProfile] = useState<ApiResponseUserProfile | null>(
+    null,
+  )
 
   const navigate = useNavigate()
   const userID = useUserID()
@@ -125,7 +132,9 @@ const BookDetails = () => {
     const order: Order = {
       items: [{ ...book, quantity }],
       total_amount: book.price * quantity,
-      userProfile,
+      recipient_name: userProfile.name,
+      recipient_phone: userProfile.phone,
+      shipping_address: userProfile.address,
     }
 
     try {

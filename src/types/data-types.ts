@@ -1,5 +1,5 @@
 export interface Book {
-  id: number
+  book_id: number
   title: string
   author: string
   genre: string
@@ -43,18 +43,23 @@ export interface UserProfile {
   createdAt?: string // ISO date string for account creation
 }
 
-// export interface ShippingAddress {
-//   recipientName: string
-//   street: string
-//   city: string
-//   state: string
-//   zipCode: string
-//   country: string
-// }
+export interface ApiResponseUserProfile {
+  user_id: string
+  name: string
+  email: string
+  phone: string
+  address: string
+  profile_image: string
+  dob: string
+  gender: string
+  role: "admin" | "salesman" | "customer"
+}
 
 export interface Order {
   total_amount: number
-  userProfile: UserProfile
+  recipient_name: string
+  recipient_phone: string
+  shipping_address: string
   items: CartItem[]
 }
 

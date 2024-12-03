@@ -99,8 +99,10 @@ const Search = (props: SearchProps) => {
         >
           <List>
             {filteredBooks.map((book, index) => (
-              <Stack key={book.id}>
-                <Button onClick={() => handleBookClick(book.id, book.title)}>
+              <Stack key={book.book_id}>
+                <Button
+                  onClick={() => handleBookClick(book.book_id, book.title)}
+                >
                   <li style={{ cursor: "pointer" }}>
                     <ListItemText primary={`${book.title} by ${book.author}`} />
                   </li>

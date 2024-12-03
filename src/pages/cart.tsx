@@ -29,7 +29,7 @@ import { placeOrder } from "../service/order-service"
 import {
   CartItem as CartItemType,
   Order,
-  UserProfile,
+  ApiResponseUserProfile,
 } from "../types/data-types"
 
 const Cart = () => {
@@ -38,13 +38,15 @@ const Cart = () => {
   const [error, setError] = useState<string | null>(null)
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false)
   const [isClearCartModalOpen, setIsClearCartModalOpen] = useState(false)
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
+  const [userProfile, setUserProfile] = useState<ApiResponseUserProfile | null>(
+    null,
+  )
   const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
   const navigate = useNavigate()
 
   const { userData } = useUser()
-  const userID = userData?.userId
+  const userID = userData?.user_id
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -100,8 +102,11 @@ const Cart = () => {
   const handleRemove = async (id: number) => {
     if (!userID) return
     try {
+      console.log("userID", userID, "id", id)
       await removeFromCart(userID, id)
-      setCartItems((prevItems) => prevItems.filter((item) => item.id !== id))
+      setCartItems((prevItems) =>
+        prevItems.filter((item) => item.book_id !== id),
+      )
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to remove item")
     }
@@ -114,7 +119,7 @@ const Cart = () => {
       await updateCartQuantityService(userID, id, quantity)
       setCartItems((prevItems) =>
         prevItems.map((item) =>
-          item.id === id ? { ...item, quantity } : item,
+          item.book_id === id ? { ...item, quantity } : item,
         ),
       )
     } catch (err) {
@@ -158,7 +163,9 @@ const Cart = () => {
     const order: Order = {
       items: cartItems,
       total_amount: Number(totalCost.toFixed(2)),
-      userProfile,
+      recipient_name: userProfile.name,
+      recipient_phone: userProfile.phone,
+      shipping_address: userProfile.address,
     }
 
     try {
@@ -218,9 +225,14 @@ const Cart = () => {
             <Box style={{ marginBottom: "16px" }}>
               {cartItems.map((item) => (
                 <CartItem
-                  key={item.id}
-                  {...item}
+                  author={item.author}
                   handleRemove={handleRemove}
+                  id={item.book_id}
+                  key={item.book_id}
+                  price={item.price}
+                  quantity={item.quantity}
+                  stock_quantity={item.stock_quantity}
+                  title={item.title}
                   updateCartQuantity={updateCartQuantity}
                 />
               ))}

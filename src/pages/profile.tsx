@@ -16,7 +16,7 @@ import {
   getUserProfile,
   updateUserProfile,
 } from "src/service/user-profile-service"
-import { UserProfile } from "src/types/data-types"
+import { ApiResponseUserProfile } from "src/types/data-types"
 import * as Yup from "yup"
 
 import Layout from "../components/layout/layout"
@@ -49,7 +49,7 @@ const Profile = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const [editing, setEditing] = useState<boolean>(false)
-  const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [profile, setProfile] = useState<ApiResponseUserProfile | null>(null)
 
   const userID = useUserID()
 
@@ -155,10 +155,10 @@ const Profile = () => {
               ))}
               <Grid item xs={12}>
                 <Typography variant='h6'>Profile Image:</Typography>
-                {profile?.profileImage && (
+                {profile?.profile_image && (
                   <img
                     alt='profile'
-                    src={profile.profileImage}
+                    src={profile.profile_image}
                     style={{ maxWidth: "100px" }}
                   />
                 )}
