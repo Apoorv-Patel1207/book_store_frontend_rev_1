@@ -62,7 +62,7 @@ const ConfirmPurchaseDialog = ({
         <Divider sx={{ my: 2, width: "100%" }} />
         <Typography variant='body1'>Quantity: {quantity}</Typography>
         <Typography gutterBottom variant='body1'>
-          Total: ₹ {(book.price * quantity).toFixed(2)}
+          Total: ₹ {(book.price * quantity)}
         </Typography>
       </Box>
       <Box

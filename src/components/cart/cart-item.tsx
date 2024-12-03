@@ -85,7 +85,7 @@ const CartItem = ({
           {title}
         </Typography>
         <Typography variant='body2'>Author: {author}</Typography>
-        <Typography variant='body2'>Price: Rs {price.toFixed(2)}</Typography>
+        <Typography variant='body2'>Price: Rs {price}</Typography>
       </CardContent>
       <Box>
         <Box style={{ display: "flex", alignItems: "center", gap: "8px" }}>

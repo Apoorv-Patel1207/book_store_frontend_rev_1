@@ -123,10 +123,10 @@ const BookDetails = () => {
     setIsPlacingOrder(true)
 
     const order: Order = {
-      userId: userID,
+      user_id: userID,
       items: [{ ...book, quantity }],
-      totalAmount: book.price * quantity,
-      orderDate: new Date().toISOString(),
+      total_amount: book.price * quantity,
+      order_date: new Date().toISOString(),
       status: "Processing",
       userProfile,
     }
@@ -135,7 +135,7 @@ const BookDetails = () => {
       const response = await placeOrder(order, userID)
       showSnackbar("Order placed successfully!", "success")
       handleCloseModal()
-      if (response.orderId) navigate(`/checkout/${response.orderId}`)
+      if (response.order_id) navigate(`/checkout/${response.order_id}`)
     } catch (err) {
       showSnackbar("Failed to place order. Please try again.", "error")
       console.error(err)

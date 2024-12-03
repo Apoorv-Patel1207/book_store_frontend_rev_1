@@ -51,7 +51,6 @@ const Checkout = () => {
   return (
     <Layout>
       <Container maxWidth='md'>
-       
         <Box
           alignItems='center'
           display='flex'
@@ -134,7 +133,7 @@ const Checkout = () => {
                   Total
                 </TableCell>
                 <TableCell align='right' sx={{ fontWeight: "bold" }}>
-                  ₹ {order?.totalAmount}
+                  ₹ {order?.total_amount}
                 </TableCell>
               </TableRow>
             </Table>

@@ -67,36 +67,33 @@ const OrderHistoryPage = () => {
           <NoDataFound description=' You have not placed any orders yet.' />
         ) : (
           orders.map((order) => (
-            <Card key={order.orderId} sx={{ mb: 3 }} variant='outlined'>
+            <Card key={order.order_id} sx={{ mb: 3 }} variant='outlined'>
               <CardContent>
                 <Box sx={{ mb: 2 }}>
                   <Typography fontWeight='bold'>
-                    Order ID: {order.orderId}
+                    Order ID: {order.order_id}
                   </Typography>
                   <Typography color='text.secondary' variant='body2'>
-                    Order Date: {order.orderDate}
+                    Order Date: {order.order_date}
                   </Typography>
                   <Typography color='text.secondary' variant='body2'>
                     Status: {order.status}
                   </Typography>
 
-                  {order.userProfile && (
-                    <>
-                      <Typography fontWeight='bold' variant='body2'>
-                        Shipping Details:
-                      </Typography>
+                  <Typography fontWeight='bold' mt={2} variant='body2'>
+                    Shipping Details:
+                  </Typography>
 
-                      <Typography color='text.secondary' variant='body2'>
-                        Name: {order.userProfile.name}
-                      </Typography>
-                      <Typography variant='body2'>
-                        Address: {order.userProfile.address}
-                      </Typography>
-                      <Typography variant='body2'>
-                        Phone: {order.userProfile.phone}
-                      </Typography>
-                    </>
-                  )}
+                  <Typography color='text.secondary' variant='body2'>
+                    Name: {order.user_name}
+                  </Typography>
+
+                  <Typography variant='body2'>
+                    Address: {order.user_address}
+                  </Typography>
+                  <Typography variant='body2'>
+                    Phone: {order.user_phone}
+                  </Typography>
                 </Box>
 
                 <Typography fontWeight='bold' sx={{ mt: 2 }}>
@@ -129,9 +126,7 @@ const OrderHistoryPage = () => {
                           <TableCell>{book.author}</TableCell>
                           <TableCell>₹ {book.price}</TableCell>
                           <TableCell>{book.quantity}</TableCell>
-                          <TableCell>
-                            ₹ {(book.price * book.quantity).toFixed(2)}
-                          </TableCell>
+                          <TableCell>₹ {book.price * book.quantity}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -141,7 +136,7 @@ const OrderHistoryPage = () => {
                 <Grid container justifyContent='flex-end' sx={{ mt: 2 }}>
                   <Grid item>
                     <Typography fontWeight='bold'>
-                      Total Amount: ₹ {order.totalAmount.toFixed(2)}
+                      Total Amount: ₹ {order.total_amount}
                     </Typography>
                   </Grid>
                 </Grid>

@@ -43,23 +43,25 @@ export interface UserProfile {
   createdAt?: string // ISO date string for account creation
 }
 
-export interface ShippingAddress {
-  recipientName: string
-  street: string
-  city: string
-  state: string
-  zipCode: string
-  country: string
-}
+// export interface ShippingAddress {
+//   recipientName: string
+//   street: string
+//   city: string
+//   state: string
+//   zipCode: string
+//   country: string
+// }
 
 export interface Order {
-  orderId?: number
-  userId: string
-  items: CartItem[]
-  totalAmount: number
-  orderDate: string
+  order_date: string
+  order_id?: number
   status: "Shipped" | "Delivered" | "Processing"
+  total_amount: number
+  user_address?: string
+  user_email?: string
+  user_id: string
+  user_name?: string
+  user_phone?: string
+  items: CartItem[]
   userProfile: UserProfile
-  address?: string
-  shippingAddress?: ShippingAddress
 }

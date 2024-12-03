@@ -38,7 +38,7 @@ const CartConfirmPurchaseDailog = (props: CartConfirmPurchaseDailogProps) => {
       <DialogContent>
         <Typography>
           Please confirm your details before proceeding. Your total is Rs{" "}
-          {totalCost.toFixed(2)}.
+          {totalCost}.
         </Typography>
         <Box
           component='form'

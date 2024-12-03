@@ -156,10 +156,10 @@ const Cart = () => {
     if (!userID) return
 
     const order: Order = {
-      userId: userID,
+      user_id: userID,
       items: cartItems,
-      totalAmount: Number(totalCost.toFixed(2)),
-      orderDate: new Date().toISOString(),
+      total_amount: Number(totalCost.toFixed(2)),
+      order_date: new Date().toISOString(),
       status: "Processing",
       userProfile,
     }
@@ -171,7 +171,7 @@ const Cart = () => {
       handleClearCart().catch((err) => {
         console.error("Error clearing the cart:", err)
       })
-      if (response.orderId) navigate(`/checkout/${response.orderId}`)
+      if (response.order_id) navigate(`/checkout/${response.order_id}`)
     } catch (err) {
       showSnackbar("Failed to place order. Please try again.", "error")
       console.error(err)
