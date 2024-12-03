@@ -17,12 +17,12 @@ import {
 import { useNavigate, useParams } from "react-router-dom"
 import { useUserID } from "src/components/auth/userID"
 import { fetchOrderById } from "src/service/order-service"
-import { Order } from "src/types/data-types"
+import { ApiResponseOrder } from "src/types/data-types"
 
 import Layout from "../components/layout/layout"
 
 const Checkout = () => {
-  const [order, setOrder] = useState<Order | null>(null)
+  const [order, setOrder] = useState<ApiResponseOrder | null>(null)
   const { id } = useParams<{ id: string }>()
   const userID = useUserID()
 
@@ -133,7 +133,7 @@ const Checkout = () => {
                   Total
                 </TableCell>
                 <TableCell align='right' sx={{ fontWeight: "bold" }}>
-                  ₹ {order?.total_amount}
+                  ₹ {order?.order_amount}
                 </TableCell>
               </TableRow>
             </Table>

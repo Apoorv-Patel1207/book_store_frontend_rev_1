@@ -53,15 +53,19 @@ export interface UserProfile {
 // }
 
 export interface Order {
-  order_date: string
-  order_id?: number
-  status: "Shipped" | "Delivered" | "Processing"
   total_amount: number
-  user_address?: string
-  user_email?: string
-  user_id: string
-  user_name?: string
-  user_phone?: string
-  items: CartItem[]
   userProfile: UserProfile
+  items: CartItem[]
+}
+
+export interface ApiResponseOrder {
+  order_id: number
+  user_id: string
+  order_amount: number
+  order_date: string
+  status: "Shipped" | "Delivered" | "Processing"
+  recipient_name?: string
+  recipient_phone?: string
+  shipping_address?: string
+  items: CartItem[]
 }

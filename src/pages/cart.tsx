@@ -156,11 +156,8 @@ const Cart = () => {
     if (!userID) return
 
     const order: Order = {
-      user_id: userID,
       items: cartItems,
       total_amount: Number(totalCost.toFixed(2)),
-      order_date: new Date().toISOString(),
-      status: "Processing",
       userProfile,
     }
 

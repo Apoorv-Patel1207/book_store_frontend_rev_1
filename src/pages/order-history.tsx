@@ -14,19 +14,20 @@ import {
   Paper,
   Avatar,
   Box,
-  Grid,
 } from "@mui/material"
+import Grid from "@mui/material/Grid2"
 import { useUserID } from "src/components/auth/userID"
+import { formatDate } from "src/components/utility-components/format-date"
 import Loading from "src/components/utility-components/loading"
 import NoDataFound from "src/components/utility-components/no-data"
 import PageHeading from "src/components/utility-components/page-headings"
 
 import Layout from "../components/layout/layout"
 import { fetchOrders } from "../service/order-service"
-import { Order } from "../types/data-types"
+import { ApiResponseOrder } from "../types/data-types"
 
 const OrderHistoryPage = () => {
-  const [orders, setOrders] = useState<Order[]>([])
+  const [orders, setOrders] = useState<ApiResponseOrder[]>([])
   const [loading, setLoading] = useState(true)
 
   const userID = useUserID()
@@ -74,7 +75,9 @@ const OrderHistoryPage = () => {
                     Order ID: {order.order_id}
                   </Typography>
                   <Typography color='text.secondary' variant='body2'>
-                    Order Date: {order.order_date}
+                    {/* Order Date: {order.order_date}
+                     */}
+                    Order Date: {formatDate(order.order_date)}
                   </Typography>
                   <Typography color='text.secondary' variant='body2'>
                     Status: {order.status}
@@ -85,14 +88,14 @@ const OrderHistoryPage = () => {
                   </Typography>
 
                   <Typography color='text.secondary' variant='body2'>
-                    Name: {order.user_name}
+                    Name: {order.recipient_name}
                   </Typography>
 
                   <Typography variant='body2'>
-                    Address: {order.user_address}
+                    Address: {order.shipping_address}
                   </Typography>
                   <Typography variant='body2'>
-                    Phone: {order.user_phone}
+                    Phone: {order.recipient_phone}
                   </Typography>
                 </Box>
 
@@ -134,9 +137,9 @@ const OrderHistoryPage = () => {
                 </TableContainer>
 
                 <Grid container justifyContent='flex-end' sx={{ mt: 2 }}>
-                  <Grid item>
+                  <Grid>
                     <Typography fontWeight='bold'>
-                      Total Amount: ₹ {order.total_amount}
+                      Total Amount: ₹ {order.order_amount}
                     </Typography>
                   </Grid>
                 </Grid>

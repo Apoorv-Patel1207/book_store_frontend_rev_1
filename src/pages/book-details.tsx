@@ -123,11 +123,8 @@ const BookDetails = () => {
     setIsPlacingOrder(true)
 
     const order: Order = {
-      user_id: userID,
       items: [{ ...book, quantity }],
       total_amount: book.price * quantity,
-      order_date: new Date().toISOString(),
-      status: "Processing",
       userProfile,
     }
 
