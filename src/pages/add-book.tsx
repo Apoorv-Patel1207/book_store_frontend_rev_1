@@ -1,48 +1,51 @@
 import { useState } from "react"
 
-import { Container, Button } from "@mui/material"
+import { Container, Button, AlertColor } from "@mui/material"
 import BookForm from "src/components/admin-sales-panel/add-book-form"
 import AdminApproval from "src/components/admin-sales-panel/admin-approval"
+import { useUser } from "src/components/context/user-context"
 import PageHeading from "src/components/utility-components/page-headings"
+import SnackbarAlert from "src/components/utility-components/snackbar"
+import { addBook } from "src/service/book-service"
+import { BookFormType } from "src/types/data-types"
 
 import Layout from "../components/layout/layout"
 
-export interface BookFormType {
-  id?: number // Optional in case it's auto-generated
-  title: string
-  author: string
-  genre: string
-  price: number
-  coverImage?: string
-  description?: string
-  publicationDate?: string
-  ISBN?: string
-  language?: string
-  pages?: number
-  publisher?: string
-  stockQuantity: number
-}
-
 const AdminPanel = () => {
+  const { userData } = useUser()
+  const userID = userData?.user_id
+
   const [showForm, setShowForm] = useState(false)
 
-  const handleFormSubmit = async (data: BookFormType) => {
-    try {
-      const response = await fetch("http://localhost:5000/api/books", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    type: "success" as AlertColor,
+  })
 
-      if (response.ok) {
-        console.log("Book approved:", data)
-      } else {
-        console.error("Failed to approve book:", response.statusText)
-      }
+  const handleSnackbarClose = () => {
+    setSnackbar((prev) => ({ ...prev, open: false }))
+  }
+
+  const showSnackbar = (message: string, type: AlertColor = "success") => {
+    setSnackbar({ open: true, message, type })
+  }
+
+  const handleFormSubmit = async (data: BookFormType) => {
+    if (!userID) {
+      showSnackbar("Please login to continue", "error")
+      return
+    }
+
+    try {
+      const addedBook = await addBook(data, userID)
+      console.log("Book added to the catalog", addedBook)
+      showSnackbar("Book added to the catalog", "success")
+      setShowForm(false)
     } catch (error) {
       console.error("Error approving book:", error)
+      showSnackbar("error adding book to the catalog", "error")
+   
     }
   }
 
@@ -63,6 +66,13 @@ const AdminPanel = () => {
           <BookForm isAdmin onSubmit={handleFormSubmit} />
         )}
         <AdminApproval />
+
+        <SnackbarAlert
+          message={snackbar.message}
+          onClose={handleSnackbarClose}
+          open={snackbar.open}
+          type={snackbar.type}
+        />
       </Container>
     </Layout>
   )

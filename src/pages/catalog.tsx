@@ -13,14 +13,14 @@ import Grid from "@mui/material/Grid2"
 import Loading from "src/components/utility-components/loading"
 import PageHeading from "src/components/utility-components/page-headings"
 import { deleteBook } from "src/service/book-service"
-import { Book, PaginatedBook } from "src/types/data-types"
+import { ApiResponseBook, PaginatedBook } from "src/types/data-types"
 
 import BookCard from "../components/book/book-card"
 import Filters from "../components/catalog/filters"
 import Layout from "../components/layout/layout"
 
 const Catalog = () => {
-  const [books, setBooks] = useState<Book[]>([])
+  const [books, setBooks] = useState<ApiResponseBook[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [filterGenre, setFilterGenre] = useState("all")
   const [priceValue, setPriceValue] = useState<number[]>([0, 100])
@@ -102,7 +102,7 @@ const Catalog = () => {
     }
   }
 
-  const handleUpdateBook = (updatedBook: Book) => {
+  const handleUpdateBook = (updatedBook: ApiResponseBook) => {
     setBooks((prevBooks) =>
       prevBooks.map((book) =>
         book.book_id === updatedBook.book_id ? updatedBook : book,

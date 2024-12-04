@@ -1,52 +1,48 @@
 import { useState } from "react"
 
-import { Container } from "@mui/material"
+import { AlertColor, Container } from "@mui/material"
 import BookForm from "src/components/admin-sales-panel/add-book-form"
+import { useUser } from "src/components/context/user-context"
 import PageHeading from "src/components/utility-components/page-headings"
 import SnackbarAlert from "src/components/utility-components/snackbar"
+import { createBookRequest } from "src/service/book-requests-service"
+import { BookFormType } from "src/types/data-types"
 
-import { BookFormType } from "./add-book"
 import Layout from "../components/layout/layout"
 
 const SalesPanel = () => {
-  const [snackbarOpen, setSnackbarOpen] = useState(false)
-  const [snackbarMessage, setSnackbarMessage] = useState("")
-  const [snackbarType, setSnackbarType] = useState<"success" | "error">(
-    "success",
-  )
+  const { userData } = useUser()
+  const userID = userData?.user_id
 
-  const handleFormSubmit = async (data: BookFormType) => {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/api/books/pending-books",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        },
-      )
-
-      if (response.ok) {
-        console.log("Book submitted for approval:", data)
-        setSnackbarMessage("Book added successfully!")
-        setSnackbarType("success")
-      } else {
-        console.error("Failed to submit book:", response.statusText)
-        setSnackbarMessage("Failed to add book!")
-        setSnackbarType("error")
-      }
-    } catch (error) {
-      console.error("Error submitting book:", error)
-      setSnackbarMessage("Error submitting book details.")
-      setSnackbarType("error")
-    }
-    setSnackbarOpen(true)
-  }
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    type: "success" as AlertColor,
+  })
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false)
+    setSnackbar((prev) => ({ ...prev, open: false }))
+  }
+
+  const showSnackbar = (message: string, type: AlertColor = "success") => {
+    setSnackbar({ open: true, message, type })
+  }
+
+  const handleFormSubmit = async (data: BookFormType) => {
+    if (!userID) {
+      showSnackbar("Please login to continue", "error")
+      return
+    }
+
+    try {
+      const response = await createBookRequest(data, userID)
+
+      console.log("Book submitted for approval:", response)
+      showSnackbar("Book added successfully!", "success")
+    } catch (error) {
+      console.error("Error submitting book:", error)
+      showSnackbar("error submitting the book request", "error")
+    }
   }
 
   return (
@@ -58,10 +54,10 @@ const SalesPanel = () => {
       </Container>
 
       <SnackbarAlert
-        message={snackbarMessage}
+        message={snackbar.message}
         onClose={handleSnackbarClose}
-        open={snackbarOpen}
-        type={snackbarType}
+        open={snackbar.open}
+        type={snackbar.type}
       />
     </Layout>
   )

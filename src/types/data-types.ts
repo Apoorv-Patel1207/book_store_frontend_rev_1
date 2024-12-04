@@ -1,4 +1,20 @@
-export interface Book {
+export interface BookFormType {
+  id?: number // Optional in case it's auto-generated
+  title: string
+  author: string
+  genre: string
+  price: number
+  coverImage?: string
+  description?: string
+  publicationDate?: string
+  ISBN?: string
+  language?: string
+  pages?: number
+  publisher?: string
+  stockQuantity: number
+}
+
+export interface ApiResponseBook {
   book_id: number
   title: string
   author: string
@@ -16,7 +32,7 @@ export interface Book {
 }
 
 export interface PaginatedBook {
-  books: Book[]
+  books: ApiResponseBook[]
   pagination: {
     totalCount: number
     totalPages: number
@@ -25,7 +41,7 @@ export interface PaginatedBook {
   }
 }
 
-export interface CartItem extends Book {
+export interface CartItem extends ApiResponseBook {
   quantity: number
 }
 
@@ -37,10 +53,9 @@ export interface UserProfile {
   address: string
   profileImage: string
   dob: string
-  // gender: "male" | "female" | "other"
   gender: string
   role?: "admin" | "salesman" | "customer"
-  createdAt?: string // ISO date string for account creation
+  createdAt?: string 
 }
 
 export interface ApiResponseUserProfile {

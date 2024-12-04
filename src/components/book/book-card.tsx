@@ -13,16 +13,16 @@ import {
   useTheme,
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import { Book } from "src/types/data-types"
+import { ApiResponseBook } from "src/types/data-types"
 
 import DeleteConfirmationDialog from "./delete-book-modal"
 import UpdateBookModal from "./update-book-modal"
 import { useUser } from "../context/user-context"
 
 interface BookCardProps {
-  book: Book
+  book: ApiResponseBook
   handleDelete: (id: number) => void
-  handleUpdateBook: (updatedBook: Book) => void
+  handleUpdateBook: (updatedBook: ApiResponseBook) => void
 }
 
 const BookCard = (props: BookCardProps) => {

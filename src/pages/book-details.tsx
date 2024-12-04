@@ -24,7 +24,7 @@ import Layout from "../components/layout/layout"
 import { addToCart } from "../service/cart-service"
 import { placeOrder } from "../service/order-service"
 import {
-  Book,
+  ApiResponseBook,
   CartItem,
   Order,
   ApiResponseUserProfile,
@@ -32,7 +32,7 @@ import {
 
 const BookDetails = () => {
   const { id } = useParams<{ id: string }>()
-  const [book, setBook] = useState<Book | null>(null)
+  const [book, setBook] = useState<ApiResponseBook | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1)
@@ -71,7 +71,7 @@ const BookDetails = () => {
           if (!response.ok) {
             throw new Error("Failed to fetch book details")
           }
-          const data = (await response.json()) as Book
+          const data = (await response.json()) as ApiResponseBook
           setBook(data)
         }
       } catch (err) {
@@ -379,9 +379,6 @@ const BookDetails = () => {
               </Box>
             )}
           </Box>
-          {/* <Button onClick={() => navigate("/")} variant='text'>
-            Back to Books
-          </Button> */}
 
           <Button
             onClick={() => navigate("/")}

@@ -11,7 +11,7 @@ import {
   Button,
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import { Book } from "src/types/data-types"
+import { ApiResponseBook } from "src/types/data-types"
 
 interface SearchProps {
   isMobile: boolean
@@ -20,7 +20,7 @@ interface SearchProps {
 const Search = (props: SearchProps) => {
   const { isMobile } = props
   const [searchQuery, setSearchQuery] = useState<string>("")
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([])
+  const [filteredBooks, setFilteredBooks] = useState<ApiResponseBook[]>([])
   const navigate = useNavigate()
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null)
 
@@ -32,7 +32,7 @@ const Search = (props: SearchProps) => {
       if (!response.ok) {
         throw new Error("Network response was not ok")
       }
-      const data = (await response.json()) as Book[]
+      const data = (await response.json()) as ApiResponseBook[]
       setFilteredBooks(data)
     } catch (error) {
       console.error("Error fetching books:", error)

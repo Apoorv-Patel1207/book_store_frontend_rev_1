@@ -13,12 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import { Book, ApiResponseUserProfile } from "src/types/data-types"
+import { ApiResponseBook, ApiResponseUserProfile } from "src/types/data-types"
 
 interface ConfirmPurchaseDialogProps {
   isModalOpen: boolean
   handleCloseModal: () => void
-  book: Book
+  book: ApiResponseBook
   quantity: number
   userProfile: ApiResponseUserProfile | null
   isPlacingOrder: boolean

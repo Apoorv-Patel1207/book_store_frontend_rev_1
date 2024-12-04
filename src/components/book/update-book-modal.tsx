@@ -11,13 +11,13 @@ import {
   TextField,
 } from "@mui/material"
 import { updateBook } from "src/service/book-service"
-import { Book } from "src/types/data-types"
+import { ApiResponseBook } from "src/types/data-types"
 
 interface UpdateBookModalProps {
-  book: Book
+  book: ApiResponseBook
   open: boolean
   onClose: () => void
-  handleUpdateBook: (updatedBook: Book) => void
+  handleUpdateBook: (updatedBook: ApiResponseBook) => void
 }
 
 const UpdateBookModal: React.FC<UpdateBookModalProps> = ({
@@ -39,7 +39,7 @@ const UpdateBookModal: React.FC<UpdateBookModalProps> = ({
       const updatedBook = (await updateBook(book.book_id, {
         price,
         stock_quantity: stockQuantity,
-      })) as Book
+      })) as ApiResponseBook
       handleUpdateBook(updatedBook)
       onClose() // Close the modal
     } catch (err) {

@@ -77,8 +77,8 @@ function Learning() {
   // At the time ordering make the phone number validation
   // Admin should have all the order details within its Panel
   // Fix the issue with accessing the tabs with the direct providing the URL
-
   // back from cart
+  // Make all the PK to UUID type
 
   return (
     <Layout>

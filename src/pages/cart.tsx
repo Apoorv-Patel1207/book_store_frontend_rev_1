@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import {
   Typography,
   Button,
@@ -92,12 +93,6 @@ const Cart = () => {
       })
     }
   }, [userID])
-
-  // if (!userID) {
-  //   showSnackbar("Redirecting as user is not logged in", "error")
-  //   navigate("/not-logged-in")
-  //   return
-  // }
 
   const handleRemove = async (id: number) => {
     if (!userID) return
@@ -269,6 +264,21 @@ const Cart = () => {
             </Box>
           </Paper>
         )}
+
+        <Button
+          onClick={() => navigate("/")}
+          startIcon={<ArrowBackIcon />}
+          sx={{
+            color: "#001F3F",
+            textTransform: "none",
+            fontWeight: "bold",
+            fontSize: "14px",
+            mt: 2,
+          }}
+          variant='text'
+        >
+          Back to Books
+        </Button>
 
         <CartConfirmPurchaseDailog
           handleCloseCheckoutModal={handleCloseCheckoutModal}

@@ -16,21 +16,27 @@ import {
   approveBook,
   fetchPendingBooks,
   rejectBook,
-} from "src/service/pending-book-service"
-import { Book } from "src/types/data-types"
+} from "src/service/book-requests-service"
+import { ApiResponseBook } from "src/types/data-types"
 
 import NoDataFound from "../utility-components/no-data"
 
 const AdminApproval = () => {
-  const [pendingBooks, setPendingBooks] = useState<Book[]>([])
-  const [approvedBooks, setApprovedBooks] = useState<Book[]>([])
-  const [rejectedBooks, setRejectedBooks] = useState<Book[]>([])
+  const [pendingBooks, setPendingBooks] = useState<ApiResponseBook[]>([])
+  const [approvedBooks, setApprovedBooks] = useState<ApiResponseBook[]>([])
+  const [rejectedBooks, setRejectedBooks] = useState<ApiResponseBook[]>([])
 
   const loadPendingBooks = async () => {
-    const books = (await fetchPendingBooks()) as Book[]
-    setPendingBooks(books.filter((book: Book) => book.status === "pending"))
-    setApprovedBooks(books.filter((book: Book) => book.status === "approved"))
-    setRejectedBooks(books.filter((book: Book) => book.status === "rejected"))
+    const books = (await fetchPendingBooks()) as ApiResponseBook[]
+    setPendingBooks(
+      books.filter((book: ApiResponseBook) => book.status === "pending"),
+    )
+    setApprovedBooks(
+      books.filter((book: ApiResponseBook) => book.status === "approved"),
+    )
+    setRejectedBooks(
+      books.filter((book: ApiResponseBook) => book.status === "rejected"),
+    )
   }
 
   useEffect(() => {
@@ -63,7 +69,11 @@ const AdminApproval = () => {
     }
   }
 
-  const renderTable = (title: string, books: Book[], actions = false) => (
+  const renderTable = (
+    title: string,
+    books: ApiResponseBook[],
+    actions = false,
+  ) => (
     <Container maxWidth='lg' sx={{ mt: 4 }}>
       <Typography gutterBottom variant='h6'>
         {title}

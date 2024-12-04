@@ -11,7 +11,7 @@ import {
 import Grid from "@mui/material/Grid2"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { GENRES } from "src/constant/genres"
-import { BookFormType } from "src/pages/add-book"
+import { BookFormType } from "src/types/data-types"
 import * as Yup from "yup"
 
 interface BookFormProps {
