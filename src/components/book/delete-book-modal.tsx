@@ -6,12 +6,12 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
-} from "@mui/material";
+} from "@mui/material"
 
 interface DeleteConfirmationDialogProps {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
+  open: boolean
+  onClose: () => void
+  onConfirm: () => void
 }
 
 const DeleteConfirmationDialog = ({
@@ -19,28 +19,22 @@ const DeleteConfirmationDialog = ({
   onClose,
   onConfirm,
 }: DeleteConfirmationDialogProps) => (
-    <Dialog
-      aria-describedby="alert-dialog-description"
-      aria-labelledby="alert-dialog-title"
-      onClose={onClose}
-      open={open}
-    >
-      <DialogTitle id="alert-dialog-title">Delete Book?</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Are you sure you want to delete this book? This action cannot be
-          undone.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button color="primary" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button color="error" onClick={onConfirm}>
-          Confirm
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
+  <Dialog onClose={onClose} open={open}>
+    <DialogTitle>Delete Book?</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Are you sure you want to delete this book? This action cannot be undone.
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button color='primary' onClick={onClose}>
+        Cancel
+      </Button>
+      <Button color='error' onClick={onConfirm}>
+        Confirm
+      </Button>
+    </DialogActions>
+  </Dialog>
+)
 
-export default DeleteConfirmationDialog;
+export default DeleteConfirmationDialog

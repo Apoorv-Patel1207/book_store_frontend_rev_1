@@ -26,10 +26,19 @@ const ClearCartDialog = (props: ConfirmPurchaseDialogProps) => {
         <Typography>Are you sure you want to clear the cart?</Typography>
       </DialogContent>
       <DialogActions>
-        <Button color='primary' onClick={handleCloseClearCartModal}>
+        <Button
+          color='error'
+          onClick={handleCloseClearCartModal}
+          variant='outlined'
+        >
           Cancel
         </Button>
-        <Button color='secondary' onClick={handleConfirmClearCart}>
+        <Button
+          color='primary'
+          onClick={handleConfirmClearCart}
+          sx={{ ml: 1, bgcolor: "#001F3F" }}
+          variant='contained'
+        >
           Clear
         </Button>
       </DialogActions>

@@ -27,6 +27,7 @@ import {
 import * as Yup from "yup"
 
 import { useUser } from "../context/user-context"
+// import { useIsMobile } from "../utility-components/screen-size"
 
 interface CartConfirmPurchaseDialogProps {
   isBulkPurchase: boolean
@@ -134,8 +135,15 @@ const ConfirmPurchaseDialog = (props: CartConfirmPurchaseDialogProps) => {
     await handleConfirmBuy(data)
   }
 
+  // const isMobile = useIsMobile()
+
   return (
-    <Dialog onClose={handleCloseCheckoutModal} open={isCheckoutModalOpen}>
+    <Dialog
+      fullWidth
+      // maxWidth={isMobile ? "xs" : "sm"}
+      onClose={handleCloseCheckoutModal}
+      open={isCheckoutModalOpen}
+    >
       <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
         <CheckCircleOutlineIcon
           color='success'
@@ -208,17 +216,21 @@ const ConfirmPurchaseDialog = (props: CartConfirmPurchaseDialogProps) => {
             variant='outlined'
           />
           <DialogActions>
-            <Button color='primary' onClick={handleCloseCheckoutModal}>
+            <Button
+              color='error'
+              onClick={handleCloseCheckoutModal}
+              variant='outlined'
+            >
               Cancel
             </Button>
             <Button
               color='primary'
               disabled={isPlacingOrder}
-              sx={{ ml: 1 }}
+              sx={{ ml: 1, bgcolor: "#001F3F" }}
               type='submit'
               variant='contained'
             >
-              {isPlacingOrder ? "Placing Order..." : "Confirm Buy"}
+              {isPlacingOrder ? "Buying..." : "Confirm"}
             </Button>
           </DialogActions>
         </Box>

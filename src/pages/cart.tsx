@@ -196,7 +196,7 @@ const Cart = () => {
               </Typography>
               <Box>
                 <Button
-                  color='primary'
+                  color='error'
                   disabled={cartItems.length === 0}
                   onClick={handleOpenClearCartModal}
                   variant='outlined'

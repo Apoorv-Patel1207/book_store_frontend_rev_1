@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react"
 
 import AddIcon from "@mui/icons-material/Add"
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 import RemoveIcon from "@mui/icons-material/Remove"
 import {
-  Button,
   Card,
   CardContent,
   Typography,
@@ -12,7 +12,6 @@ import {
   FormHelperText,
 } from "@mui/material"
 import debounce from "lodash.debounce"
-
 interface CartItemProps {
   id: string
   title: string
@@ -96,13 +95,10 @@ const CartItem = ({
           >
             <AddIcon />
           </IconButton>
-          <Button
-            color='error'
-            onClick={() => handleRemove(id)}
-            variant='contained'
-          >
-            Remove
-          </Button>
+
+          <IconButton color='error' onClick={() => handleRemove(id)}>
+            <DeleteForeverIcon />
+          </IconButton>
         </Box>
 
         {itemQuantity > stock_quantity && (

@@ -115,14 +115,12 @@ const BookDetails = () => {
 
     if (inputValue === "" || newQuantity < 1) {
       setQuantity(0)
-      setQuantityError("Quantity is required and must be at least 1.")
+      setQuantityError("Quantity is required at least 1.")
       return
     }
 
     if (book && newQuantity > book?.stock_quantity) {
-      setQuantityError(
-        `Quantity exceeds the available stock of ${book?.stock_quantity}.`,
-      )
+      setQuantityError(`Available stock of ${book?.stock_quantity}.`)
       setQuantity(newQuantity)
       return
     }
@@ -258,7 +256,7 @@ const BookDetails = () => {
                 id='quantity'
                 label='Quantity'
                 onChange={handleQuantityChange}
-                sx={{ mt: 2 }}
+                sx={{ mt: 2, height: "50px" }}
                 value={quantity}
               />
             </CardContent>
@@ -294,18 +292,18 @@ const BookDetails = () => {
                 }}
               >
                 <Button
+                  color='success'
                   disabled={!!quantityError}
                   onClick={handleAddToCart}
-                  sx={{ bgcolor: "#001F3F" }}
-                  variant='contained'
+                  variant='outlined'
                 >
                   Add to Cart
                 </Button>
                 <Button
-                  color='success'
                   disabled={!!quantityError}
                   onClick={handleBuyNow}
-                  variant='outlined'
+                  sx={{ bgcolor: "#001F3F" }}
+                  variant='contained'
                 >
                   Buy Now
                 </Button>

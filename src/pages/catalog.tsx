@@ -23,7 +23,7 @@ const Catalog = () => {
   const [books, setBooks] = useState<ApiResponseBook[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [filterGenre, setFilterGenre] = useState("all")
-  const [priceValue, setPriceValue] = useState<number[]>([0, 100])
+  const [priceValue, setPriceValue] = useState<number[]>([0, 1000])
   const [tempSearchQuery, setTempSearchQuery] = useState("")
   const [tempFilterGenre, setTempFilterGenre] = useState("all")
   const [tempPriceValue, setTempPriceValue] = useState<number[]>([0, 100])

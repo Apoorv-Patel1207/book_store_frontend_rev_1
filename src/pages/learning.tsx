@@ -1,7 +1,6 @@
 import { Box, Typography, List, ListItem, ListItemText } from "@mui/material"
 
 import Layout from "../components/layout/layout"
-import ThemeDemo from "../components/theme-demo"
 
 function Learning() {
   const challenges = [
@@ -79,7 +78,9 @@ function Learning() {
   // Fix the issue with accessing the tabs with the direct providing the URL
 
   // Profile image page to be prepare nicely
-  
+  //  after adding the profile details to be shown in the proceed to checkout
+  // set the maximum value of book via db
+  // validation for addtion of book
 
   return (
     <Layout>
@@ -105,8 +106,6 @@ function Learning() {
             </ListItem>
           ))}
         </List>
-
-        <ThemeDemo />
       </Box>
     </Layout>
   )

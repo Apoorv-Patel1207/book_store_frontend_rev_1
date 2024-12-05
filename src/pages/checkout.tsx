@@ -47,6 +47,9 @@ const Checkout = () => {
   const handleBackToHome = () => {
     navigate("/")
   }
+  const handleBackToOrders = () => {
+    navigate("/order-history")
+  }
 
   return (
     <Layout>
@@ -151,7 +154,7 @@ const Checkout = () => {
 
           <Button
             color='primary'
-            href='/order-history'
+            onClick={handleBackToOrders}
             sx={{ marginTop: 2, bgcolor: "#001F3F", ml: 2 }}
             variant='contained'
           >
