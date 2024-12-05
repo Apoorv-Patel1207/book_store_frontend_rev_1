@@ -4,12 +4,12 @@ import AddIcon from "@mui/icons-material/Add"
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever"
 import RemoveIcon from "@mui/icons-material/Remove"
 import {
-  Card,
-  CardContent,
-  Typography,
+  Avatar,
   IconButton,
-  Box,
-  FormHelperText,
+  Stack,
+  TableCell,
+  TableRow,
+  Typography,
 } from "@mui/material"
 import debounce from "lodash.debounce"
 interface CartItemProps {
@@ -21,6 +21,7 @@ interface CartItemProps {
   stock_quantity: number
   handleRemove: (id: string) => void
   updateCartQuantity: (id: string, quantity: number) => void
+  cover_image: string
 }
 
 const CartItem = ({
@@ -32,9 +33,9 @@ const CartItem = ({
   stock_quantity,
   handleRemove,
   updateCartQuantity,
+  cover_image,
 }: CartItemProps) => {
   const [itemQuantity, setItemQuantity] = useState(quantity)
-  const [error, setError] = useState<string>("")
 
   const debouncedUpdateQuantity = useCallback(
     debounce((id: string, newQuantity: number) => {
@@ -48,9 +49,6 @@ const CartItem = ({
       const newQuantity = itemQuantity + 1
       setItemQuantity(newQuantity)
       debouncedUpdateQuantity(id, newQuantity)
-      setError("")
-    } else {
-      setError(`Maximum available stock is ${stock_quantity}`)
     }
   }
 
@@ -59,48 +57,42 @@ const CartItem = ({
       const newQuantity = itemQuantity - 1
       setItemQuantity(newQuantity)
       debouncedUpdateQuantity(id, newQuantity)
-      setError("")
-    } else {
-      setError("Minimum quantity is 1.")
     }
   }
 
   return (
-    <Card
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 2,
-        marginBottom: 2,
-      }}
-      variant='outlined'
-    >
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography fontWeight='bold' variant='h6'>
-          {title}
-        </Typography>
-        <Typography variant='body2'>Author: {author}</Typography>
-        <Typography variant='body2'>Price: Rs {price}</Typography>
-      </CardContent>
-      <Box>
-        <Box style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <IconButton disabled={itemQuantity <= 1} onClick={handleDecrement}>
+    <TableRow>
+      <TableCell>
+        <Avatar
+          alt={title}
+          src={cover_image}
+          sx={{ width: 56, height: 56 }}
+          variant='rounded'
+        />
+      </TableCell>
+      <TableCell>
+        <Typography>{title}</Typography> <Typography>{author}</Typography>
+      </TableCell>
+      <TableCell>₹ {price}</TableCell>
+      <TableCell>
+        <Stack alignItems='center' direction='row'>
+          <IconButton
+            color='error'
+            disabled={itemQuantity <= 1}
+            onClick={handleDecrement}
+          >
             <RemoveIcon />
           </IconButton>
+
           <Typography>{itemQuantity}</Typography>
           <IconButton
+            color='success'
             disabled={itemQuantity >= stock_quantity}
             onClick={handleIncrement}
           >
             <AddIcon />
           </IconButton>
-
-          <IconButton color='error' onClick={() => handleRemove(id)}>
-            <DeleteForeverIcon />
-          </IconButton>
-        </Box>
-
+        </Stack>
         {itemQuantity > stock_quantity && (
           <Typography
             sx={{
@@ -112,14 +104,15 @@ const CartItem = ({
             Only {stock_quantity} left! Please adjust quantity
           </Typography>
         )}
-
-        {error && (
-          <FormHelperText error sx={{ marginTop: 1 }}>
-            {error}
-          </FormHelperText>
-        )}
-      </Box>
-    </Card>
+      </TableCell>
+      <TableCell>₹ {price * quantity}</TableCell>
+      <TableCell>
+        {" "}
+        <IconButton color='error' onClick={() => handleRemove(id)}>
+          <DeleteForeverIcon />
+        </IconButton>
+      </TableCell>
+    </TableRow>
   )
 }
 

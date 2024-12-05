@@ -6,9 +6,18 @@ import {
   Button,
   Container,
   Paper,
-  Box,
   AlertColor,
+  Card,
+  CardContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Box,
 } from "@mui/material"
+import Grid from "@mui/material/Grid2"
 import { useNavigate } from "react-router-dom"
 import ClearCartDialog from "src/components/cart/clear-cart-dialog"
 import { useUser } from "src/components/context/user-context"
@@ -165,57 +174,85 @@ const Cart = () => {
       <Container maxWidth='lg'>
         <PageHeading>Shopping Cart</PageHeading>
 
-        {cartItems.length === 0 ? (
-          <NoDataFound description=' You have not added anything on card yet.' />
-        ) : (
-          <Paper elevation={3} sx={{ padding: 2 }}>
-            <Box style={{ marginBottom: "16px" }}>
-              {cartItems.map((item) => (
-                <CartItem
-                  author={item.author}
-                  handleRemove={handleRemove}
-                  id={item.book_id}
-                  key={item.book_id}
-                  price={item.price}
-                  quantity={item.quantity}
-                  stock_quantity={item.stock_quantity}
-                  title={item.title}
-                  updateCartQuantity={updateCartQuantity}
-                />
-              ))}
-            </Box>
-            <Box
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography component='h2' variant='h6'>
-                Total: Rs {totalCost.toFixed(2)}
-              </Typography>
-              <Box>
-                <Button
-                  color='error'
-                  disabled={cartItems.length === 0}
-                  onClick={handleOpenClearCartModal}
-                  variant='outlined'
+        <Card sx={{ mb: 3 }} variant='outlined'>
+          <CardContent>
+            <TableContainer component={Paper} sx={{ mt: 2 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Book</TableCell>
+                    <TableCell sx={{ minWidth: "150px" }}>Title</TableCell>
+
+                    <TableCell sx={{ minWidth: "100px" }}>Price</TableCell>
+                    <TableCell>Quantity</TableCell>
+                    <TableCell sx={{ minWidth: "100px" }}>Total</TableCell>
+                    <TableCell>Remove</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {cartItems.length === 0 ? (
+                    <NoDataFound description=' You have not added anything on card yet.' />
+                  ) : (
+                    cartItems.map((item) => (
+                      <CartItem
+                        author={item.author}
+                        cover_image={item.cover_image}
+                        handleRemove={handleRemove}
+                        id={item.book_id}
+                        key={item.book_id}
+                        price={item.price}
+                        quantity={item.quantity}
+                        stock_quantity={item.stock_quantity}
+                        title={item.title}
+                        updateCartQuantity={updateCartQuantity}
+                      />
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            <Grid container justifyContent='flex-end' sx={{ mt: 2 }}>
+              <Grid>
+                <Typography
+                  display='flex'
+                  fontWeight='bold'
+                  justifyContent='flex-end'
+                  mb={2}
                 >
-                  Clear Cart
-                </Button>
-                <Button
-                  color='primary'
-                  disabled={isCheckoutDisabled}
-                  onClick={handleOpenCheckoutModal}
-                  sx={{ marginLeft: "8px", bgcolor: "#001F3F" }}
-                  variant='contained'
+                  Total: Rs {totalCost.toFixed(2)}
+                </Typography>
+                <Box
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  Proceed to Checkout
-                </Button>
-              </Box>
-            </Box>
-          </Paper>
-        )}
+                  <Box>
+                    <Button
+                      color='error'
+                      disabled={cartItems.length === 0}
+                      onClick={handleOpenClearCartModal}
+                      variant='outlined'
+                    >
+                      Clear Cart
+                    </Button>
+                    <Button
+                      color='primary'
+                      disabled={isCheckoutDisabled}
+                      onClick={handleOpenCheckoutModal}
+                      sx={{ marginLeft: "8px", bgcolor: "#001F3F" }}
+                      variant='contained'
+                    >
+                      Proceed to Checkout
+                    </Button>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
 
         <Button
           onClick={() => navigate("/")}
