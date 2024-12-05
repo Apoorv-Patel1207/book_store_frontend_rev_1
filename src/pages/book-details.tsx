@@ -15,20 +15,13 @@ import {
 import Grid from "@mui/material/Grid2"
 import { useParams, useNavigate } from "react-router-dom"
 import { useUserID } from "src/components/auth/userID"
-import ConfirmPurchaseDialog from "src/components/book-details/confirm-purchase-dialog"
+import ConfirmPurchaseDialog from "src/components/order/confirm-purchase-dialog"
 import { useIsMobile } from "src/components/utility-components/screen-size"
 import SnackbarAlert from "src/components/utility-components/snackbar"
-import { getUserProfile } from "src/service/user-profile-service"
 
 import Layout from "../components/layout/layout"
 import { addToCart } from "../service/cart-service"
-import { placeOrder } from "../service/order-service"
-import {
-  ApiResponseBook,
-  CartItem,
-  Order,
-  ApiResponseUserProfile,
-} from "../types/data-types"
+import { ApiResponseBook, CartItem } from "../types/data-types"
 
 const BookDetails = () => {
   const { id } = useParams<{ id: string }>()
@@ -37,9 +30,6 @@ const BookDetails = () => {
   const [error, setError] = useState<string | null>(null)
   const [quantity, setQuantity] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [userProfile, setUserProfile] = useState<ApiResponseUserProfile | null>(
-    null,
-  )
 
   const navigate = useNavigate()
   const userID = useUserID()
@@ -81,73 +71,17 @@ const BookDetails = () => {
       }
     }
 
-    // fetchBookDetails()
-
     fetchBookDetails().catch((err) => {
       console.error("Error loading book details:", err)
     })
   }, [id])
 
-  useEffect(() => {
-    const getProfile = async () => {
-      if (!userID) return
-      try {
-        const profile = await getUserProfile(userID)
-        setUserProfile(profile)
-      } catch (err) {
-        console.error("Failed to fetch user profile:", err)
-      }
-    }
-    getProfile().catch((err) => {
-      console.error("Error getting the profile details:", err)
-    })
-  }, [userID])
-
   const handleBuyNow = () => {
     setIsModalOpen(true)
   }
 
-  const [isPlacingOrder, setIsPlacingOrder] = useState(false)
-
   const handleCloseModal = () => {
     setIsModalOpen(false)
-  }
-
-  const handleConfirmBuy = async () => {
-    if (!book) {
-      console.error("Book data is missing.")
-      return
-    }
-
-    if (!userID || !userProfile) {
-      showSnackbar(
-        "Please login and complete your profile to continue.",
-        "error",
-      )
-      return
-    }
-
-    setIsPlacingOrder(true)
-
-    const order: Order = {
-      items: [{ ...book, quantity }],
-      total_amount: book.price * quantity,
-      recipient_name: userProfile.name,
-      recipient_phone: userProfile.phone,
-      shipping_address: userProfile.address,
-    }
-
-    try {
-      const response = await placeOrder(order, userID)
-      showSnackbar("Order placed successfully!", "success")
-      handleCloseModal()
-      if (response.order_id) navigate(`/checkout/${response.order_id}`)
-    } catch (err) {
-      showSnackbar("Failed to place order. Please try again.", "error")
-      console.error(err)
-    } finally {
-      setIsPlacingOrder(false)
-    }
   }
 
   const handleAddToCart = async () => {
@@ -400,13 +334,11 @@ const BookDetails = () => {
 
       <ConfirmPurchaseDialog
         book={book}
-        handleCloseModal={handleCloseModal}
-        handleConfirmBuy={handleConfirmBuy}
-        isModalOpen={isModalOpen}
-        isPlacingOrder={isPlacingOrder}
+        handleCloseCheckoutModal={handleCloseModal}
+        isBulkPurchase={false}
+        isCheckoutModalOpen={isModalOpen}
         quantity={quantity}
-        setUserProfile={setUserProfile}
-        userProfile={userProfile}
+        showSnackbar={showSnackbar}
       />
 
       <SnackbarAlert

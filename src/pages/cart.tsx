@@ -10,9 +10,9 @@ import {
   AlertColor,
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import CartConfirmPurchaseDailog from "src/components/cart/cart-confirm-purchase-dialog"
 import ClearCartDialog from "src/components/cart/clear-cart-dialog"
 import { useUser } from "src/components/context/user-context"
+import ConfirmPurchaseDialog from "src/components/order/confirm-purchase-dialog"
 import Loading from "src/components/utility-components/loading"
 import NoDataFound from "src/components/utility-components/no-data"
 import PageHeading from "src/components/utility-components/page-headings"
@@ -126,7 +126,7 @@ const Cart = () => {
     (total, item) => total + item.price * item.quantity,
     0,
   )
-  
+
   const handleConfirmClearCart = () => {
     handleClearCart().catch((err) => {
       console.error("Error clearing the cart:", err)
@@ -232,14 +232,14 @@ const Cart = () => {
           Back to Books
         </Button>
 
-        <CartConfirmPurchaseDailog
+        <ConfirmPurchaseDialog
           cartItems={cartItems}
           handleClearCart={handleClearCart}
           handleCloseCheckoutModal={handleCloseCheckoutModal}
+          isBulkPurchase={true}
           isCheckoutModalOpen={isCheckoutModalOpen}
           showSnackbar={showSnackbar}
           totalCost={totalCost}
-          userData={userData}
         />
 
         <ClearCartDialog

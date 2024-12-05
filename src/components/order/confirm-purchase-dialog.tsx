@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 import { yupResolver } from "@hookform/resolvers/yup"
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
 import {
   Dialog,
   DialogTitle,
@@ -11,26 +12,32 @@ import {
   DialogActions,
   Button,
   AlertColor,
+  CardMedia,
+  Divider,
 } from "@mui/material"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { placeOrder } from "src/service/order-service"
 import {
-  ApiResponseUserProfile,
   Order,
   RecipientUserProfile,
   CartItem as CartItemType,
+  ApiResponseBook,
 } from "src/types/data-types"
 import * as Yup from "yup"
 
-interface CartConfirmPurchaseDailogProps {
+import { useUser } from "../context/user-context"
+
+interface CartConfirmPurchaseDialogProps {
+  isBulkPurchase: boolean
   isCheckoutModalOpen: boolean
   handleCloseCheckoutModal: () => void
-  totalCost: number
-  userData: ApiResponseUserProfile | null
   showSnackbar: (message: string, type?: AlertColor) => void
-  cartItems: CartItemType[]
-  handleClearCart: () => Promise<void>
+  cartItems?: CartItemType[]
+  totalCost?: number
+  handleClearCart?: () => Promise<void>
+  book?: ApiResponseBook
+  quantity?: number
 }
 
 const validationSchema = Yup.object().shape({
@@ -41,18 +48,21 @@ const validationSchema = Yup.object().shape({
   address: Yup.string().required("Address is required"),
 })
 
-const CartConfirmPurchaseDialog = (props: CartConfirmPurchaseDailogProps) => {
+const ConfirmPurchaseDialog = (props: CartConfirmPurchaseDialogProps) => {
   const {
+    // isBulkPurchase,
     isCheckoutModalOpen,
     handleCloseCheckoutModal,
     totalCost,
-    userData,
     showSnackbar,
     cartItems,
     handleClearCart,
+    book,
+    quantity,
   } = props
 
   const navigate = useNavigate()
+  const { userData } = useUser()
 
   const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
@@ -82,21 +92,35 @@ const CartConfirmPurchaseDialog = (props: CartConfirmPurchaseDailogProps) => {
 
     setIsPlacingOrder(true)
 
-    const order: Order = {
-      items: cartItems,
-      total_amount: Number(totalCost.toFixed(2)),
-      recipient_name: data.name,
-      recipient_phone: data.phone,
-      shipping_address: data.address,
-    }
-
     try {
+      const order: Order = {
+        items: [],
+        total_amount: 0,
+        recipient_name: data.name,
+        recipient_phone: data.phone,
+        shipping_address: data.address,
+      }
+
+      if (book && quantity) {
+        order.items = [{ ...book, quantity }]
+        order.total_amount = book.price * quantity
+      } else if (cartItems && totalCost && totalCost !== 0) {
+        order.items = cartItems
+        order.total_amount = Number(totalCost.toFixed(2))
+      } else {
+        throw new Error(
+          "No items to order. Please add books to cart or select a book.",
+        )
+      }
+
       const response = await placeOrder(order, userID)
       showSnackbar("Order placed successfully!", "success")
       handleCloseCheckoutModal()
-      handleClearCart().catch((err) => {
-        console.error("Error clearing the cart:", err)
-      })
+      if (handleClearCart) {
+        handleClearCart().catch((err) => {
+          console.error("Error clearing the cart:", err)
+        })
+      }
       if (response.order_id) navigate(`/checkout/${response.order_id}`)
     } catch (err) {
       showSnackbar("Failed to place order. Please try again.", "error")
@@ -112,12 +136,41 @@ const CartConfirmPurchaseDialog = (props: CartConfirmPurchaseDailogProps) => {
 
   return (
     <Dialog onClose={handleCloseCheckoutModal} open={isCheckoutModalOpen}>
-      <DialogTitle>Confirm Checkout</DialogTitle>
+      <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
+        <CheckCircleOutlineIcon
+          color='success'
+          sx={{ marginRight: 1, fontSize: 30 }}
+        />
+        Confirm Purchase
+      </DialogTitle>
       <DialogContent>
-        <Typography>
-          Please confirm your details before proceeding. Your total is ₹{" "}
-          {totalCost}.
-        </Typography>
+        {book && quantity ? (
+          <Box alignItems='center' display='flex' flexDirection='column'>
+            <CardMedia
+              alt={book.title}
+              component='img'
+              height='150'
+              image={book.cover_image}
+              sx={{ objectFit: "cover", borderRadius: 2, mb: 2 }}
+            />
+            <Typography fontWeight='bold' variant='h6'>
+              {book.title}
+            </Typography>
+            <Typography color='text.secondary' variant='subtitle1'>
+              by {book.author}
+            </Typography>
+            <Divider sx={{ my: 2, width: "100%" }} />
+            <Typography variant='body1'>Quantity: {quantity}</Typography>
+            <Typography gutterBottom variant='body1'>
+              Total: ₹ {book.price * quantity}
+            </Typography>
+          </Box>
+        ) : (
+          <Typography>
+            Please confirm your details before proceeding. Your total is ₹{" "}
+            {totalCost}.
+          </Typography>
+        )}
         <Box
           component='form'
           onSubmit={handleSubmit(onSubmit)}
@@ -174,4 +227,4 @@ const CartConfirmPurchaseDialog = (props: CartConfirmPurchaseDailogProps) => {
   )
 }
 
-export default CartConfirmPurchaseDialog
+export default ConfirmPurchaseDialog
