@@ -10,7 +10,7 @@ import {
   AlertColor,
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import CartConfirmPurchaseDailog from "src/components/cart/cart-confirm-purchase-dailog"
+import CartConfirmPurchaseDailog from "src/components/cart/cart-confirm-purchase-dialog"
 import ClearCartDialog from "src/components/cart/clear-cart-dialog"
 import { useUser } from "src/components/context/user-context"
 import Loading from "src/components/utility-components/loading"
@@ -26,12 +26,7 @@ import {
   clearCart,
   updateCartQuantityService,
 } from "../service/cart-service"
-import { placeOrder } from "../service/order-service"
-import {
-  CartItem as CartItemType,
-  Order,
-  RecipientUserProfile,
-} from "../types/data-types"
+import { CartItem as CartItemType } from "../types/data-types"
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItemType[]>([])
@@ -39,8 +34,6 @@ const Cart = () => {
   const [error, setError] = useState<string | null>(null)
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false)
   const [isClearCartModalOpen, setIsClearCartModalOpen] = useState(false)
-
-  const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
   const navigate = useNavigate()
 
@@ -133,44 +126,7 @@ const Cart = () => {
     (total, item) => total + item.price * item.quantity,
     0,
   )
-
-  const handleConfirmBuy = async (data: RecipientUserProfile) => {
-   
-
-    if (!userID) {
-      showSnackbar(
-        "Please login and complete your profile to continue.",
-        "error",
-      )
-      return
-    }
-
-     setIsPlacingOrder(true)
-
-    const order: Order = {
-      items: cartItems,
-      total_amount: Number(totalCost.toFixed(2)),
-      recipient_name: data.name,
-      recipient_phone: data.phone,
-      shipping_address: data.address,
-    }
-
-    try {
-      const response = await placeOrder(order, userID)
-      showSnackbar("Order placed successfully!", "success")
-      handleCloseCheckoutModal()
-      handleClearCart().catch((err) => {
-        console.error("Error clearing the cart:", err)
-      })
-      if (response.order_id) navigate(`/checkout/${response.order_id}`)
-    } catch (err) {
-      showSnackbar("Failed to place order. Please try again.", "error")
-      console.error(err)
-    } finally {
-      setIsPlacingOrder(false)
-    }
-  }
-
+  
   const handleConfirmClearCart = () => {
     handleClearCart().catch((err) => {
       console.error("Error clearing the cart:", err)
@@ -277,10 +233,11 @@ const Cart = () => {
         </Button>
 
         <CartConfirmPurchaseDailog
+          cartItems={cartItems}
+          handleClearCart={handleClearCart}
           handleCloseCheckoutModal={handleCloseCheckoutModal}
-          handleConfirmBuy={handleConfirmBuy}
           isCheckoutModalOpen={isCheckoutModalOpen}
-          isPlacingOrder={isPlacingOrder}
+          showSnackbar={showSnackbar}
           totalCost={totalCost}
           userData={userData}
         />

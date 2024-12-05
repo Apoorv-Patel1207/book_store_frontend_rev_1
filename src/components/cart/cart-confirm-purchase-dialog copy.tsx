@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
   Dialog,
@@ -8,11 +10,16 @@ import {
   TextField,
   DialogActions,
   Button,
+  AlertColor,
 } from "@mui/material"
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
+import { placeOrder } from "src/service/order-service"
 import {
   ApiResponseUserProfile,
+  Order,
   RecipientUserProfile,
+  CartItem as CartItemType,
 } from "src/types/data-types"
 import * as Yup from "yup"
 
@@ -20,9 +27,10 @@ interface CartConfirmPurchaseDailogProps {
   isCheckoutModalOpen: boolean
   handleCloseCheckoutModal: () => void
   totalCost: number
-  handleConfirmBuy: (data: RecipientUserProfile) => Promise<void>
-  isPlacingOrder: boolean
   userData: ApiResponseUserProfile | null
+  showSnackbar: (message: string, type?: AlertColor) => void
+  cartItems: CartItemType[]
+  handleClearCart: () => Promise<void>
 }
 
 const validationSchema = Yup.object().shape({
@@ -33,15 +41,20 @@ const validationSchema = Yup.object().shape({
   address: Yup.string().required("Address is required"),
 })
 
-const CartConfirmPurchaseDailog = (props: CartConfirmPurchaseDailogProps) => {
+const CartConfirmPurchaseDialog = (props: CartConfirmPurchaseDailogProps) => {
   const {
     isCheckoutModalOpen,
     handleCloseCheckoutModal,
     totalCost,
-    handleConfirmBuy,
-    isPlacingOrder,
     userData,
+    showSnackbar,
+    cartItems,
+    handleClearCart,
   } = props
+
+  const navigate = useNavigate()
+
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
   const {
     register,
@@ -55,6 +68,43 @@ const CartConfirmPurchaseDailog = (props: CartConfirmPurchaseDailogProps) => {
       address: userData?.address,
     },
   })
+
+  const userID = userData?.user_id
+
+  const handleConfirmBuy = async (data: RecipientUserProfile) => {
+    if (!userID) {
+      showSnackbar(
+        "Please login and complete your profile to continue.",
+        "error",
+      )
+      return
+    }
+
+    setIsPlacingOrder(true)
+
+    const order: Order = {
+      items: cartItems,
+      total_amount: Number(totalCost.toFixed(2)),
+      recipient_name: data.name,
+      recipient_phone: data.phone,
+      shipping_address: data.address,
+    }
+
+    try {
+      const response = await placeOrder(order, userID)
+      showSnackbar("Order placed successfully!", "success")
+      handleCloseCheckoutModal()
+      handleClearCart().catch((err) => {
+        console.error("Error clearing the cart:", err)
+      })
+      if (response.order_id) navigate(`/checkout/${response.order_id}`)
+    } catch (err) {
+      showSnackbar("Failed to place order. Please try again.", "error")
+      console.error(err)
+    } finally {
+      setIsPlacingOrder(false)
+    }
+  }
 
   const onSubmit: SubmitHandler<RecipientUserProfile> = async (data) => {
     await handleConfirmBuy(data)
@@ -124,4 +174,4 @@ const CartConfirmPurchaseDailog = (props: CartConfirmPurchaseDailogProps) => {
   )
 }
 
-export default CartConfirmPurchaseDailog
+export default CartConfirmPurchaseDialog
