@@ -29,10 +29,10 @@ const Checkout = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (userID) {
+    if (userID && id) {
       const loadOrder = async () => {
         try {
-          const fetchedOrder = await fetchOrderById(Number(id), userID)
+          const fetchedOrder = await fetchOrderById(id, userID)
           setOrder(fetchedOrder)
         } catch (err) {
           console.error("Failed to load orders", err)
@@ -75,7 +75,6 @@ const Checkout = () => {
           </Typography>
         </Box>
 
-        {/* Order Summary Table */}
         <Box sx={{ mt: 4 }}>
           <Typography
             align='center'
@@ -123,24 +122,23 @@ const Checkout = () => {
                     </TableRow>
                   )
                 })}
+                <TableRow>
+                  <TableCell
+                    align='right'
+                    colSpan={3}
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    Total
+                  </TableCell>
+                  <TableCell align='right' sx={{ fontWeight: "bold" }}>
+                    ₹ {order?.order_amount}
+                  </TableCell>
+                </TableRow>
               </TableBody>
-              <TableRow>
-                <TableCell
-                  align='right'
-                  colSpan={3}
-                  sx={{ fontWeight: "bold" }}
-                >
-                  Total
-                </TableCell>
-                <TableCell align='right' sx={{ fontWeight: "bold" }}>
-                  ₹ {order?.order_amount}
-                </TableCell>
-              </TableRow>
             </Table>
           </TableContainer>
         </Box>
 
-        {/* Footer Buttons */}
         <Box mt={4}>
           <Button
             color='primary'
@@ -154,7 +152,7 @@ const Checkout = () => {
           <Button
             color='primary'
             href='/order-history'
-            sx={{ marginTop: 2, bgcolor: "#001F3F" }}
+            sx={{ marginTop: 2, bgcolor: "#001F3F", ml: 2 }}
             variant='contained'
           >
             View All Orders

@@ -58,7 +58,7 @@ const Search = (props: SearchProps) => {
     }, 1000)
   }
 
-  const handleBookClick = (bookId: number, bookTitle: string) => {
+  const handleBookClick = (bookId: string, bookTitle: string) => {
     setSearchQuery(bookTitle)
     setFilteredBooks([])
     navigate(`/book-details/${bookId}`)

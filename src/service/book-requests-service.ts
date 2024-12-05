@@ -1,6 +1,8 @@
 import { ApiResponseBook, BookFormType } from "src/types/data-types"
 
-const API_URL = "http://localhost:5000/api/books/pending-books"
+const API_BASE_URL = process.env.REACT_APP_API_URL // http://localhost:5000/api
+const ENDPOINT = "/books/pending-books"
+const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
 export const createBookRequest = async (
   book: BookFormType,
@@ -29,7 +31,7 @@ export const fetchPendingBooks = async () => {
   return response.json()
 }
 
-export const approveBook = async (bookId: number) => {
+export const approveBook = async (bookId: string) => {
   //   const response = await fetch(`/api/pending-books/${bookId}/approve`,
   const response = await fetch(`${API_URL}/${bookId}/approve`, {
     method: "POST",
@@ -37,7 +39,7 @@ export const approveBook = async (bookId: number) => {
   return response.json()
 }
 
-export const rejectBook = async (bookId: number) => {
+export const rejectBook = async (bookId: string) => {
   const response = await fetch(`${API_URL}/${bookId}/reject`, {
     method: "DELETE",
   })

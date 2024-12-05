@@ -45,7 +45,7 @@ const AdminApproval = () => {
     })
   }, [])
 
-  const handleApprove = async (bookId: number) => {
+  const handleApprove = async (bookId: string) => {
     await approveBook(bookId)
     setPendingBooks(pendingBooks.filter((book) => book.book_id !== bookId))
     const approvedBook = pendingBooks.find((book) => book.book_id === bookId)
@@ -57,7 +57,7 @@ const AdminApproval = () => {
     }
   }
 
-  const handleReject = async (bookId: number) => {
+  const handleReject = async (bookId: string) => {
     await rejectBook(bookId)
     setPendingBooks(pendingBooks.filter((book) => book.book_id !== bookId))
     const rejectedBook = pendingBooks.find((book) => book.book_id === bookId)

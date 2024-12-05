@@ -1,6 +1,8 @@
 import { CartItem } from "../types/data-types"
 
-const API_URL = "http://localhost:5000/api/cart"
+const API_BASE_URL = process.env.REACT_APP_API_URL // http://localhost:5000/api
+const ENDPOINT = "/cart"
+const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
 // Fetch cart items from the server
 export const fetchCartItems = async (userId: string): Promise<CartItem[]> => {
@@ -37,7 +39,7 @@ export const addToCart = async (
 // Remove an item from the cart by ID
 export const removeFromCart = async (
   userId: string,
-  itemId: number,
+  itemId: string,
 ): Promise<CartItem> => {
   const response = await fetch(`${API_URL}/remove/${itemId}`, {
     method: "DELETE",
@@ -67,7 +69,7 @@ export const clearCart = async (userId: string): Promise<void> => {
 // Update cart item quantity
 export const updateCartQuantityService = async (
   userId: string,
-  itemId: number,
+  itemId: string,
   quantity: number,
 ): Promise<CartItem> => {
   const response = await fetch(`${API_URL}/update/${itemId}`, {

@@ -14,10 +14,9 @@ import Profile from "./pages/profile"
 import SalesPanel from "./pages/sales-panel"
 
 const App = () => (
-  <Router>
+  <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
     <UserProvider>
       <Routes>
-        {/* <Route element={<Home />} path='/' /> */}
         <Route element={<Catalog />} path='/' />
         <Route element={<NotLoggedIn />} path='/not-logged-in' />
         <Route element={<BookDetails />} path='/book-details/:id' />

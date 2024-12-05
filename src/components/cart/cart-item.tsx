@@ -14,14 +14,14 @@ import {
 import debounce from "lodash.debounce"
 
 interface CartItemProps {
-  id: number
+  id: string
   title: string
   author: string
   price: number
   quantity: number
   stock_quantity: number
-  handleRemove: (id: number) => void
-  updateCartQuantity: (id: number, quantity: number) => void
+  handleRemove: (id: string) => void
+  updateCartQuantity: (id: string, quantity: number) => void
 }
 
 const CartItem = ({
@@ -34,35 +34,32 @@ const CartItem = ({
   handleRemove,
   updateCartQuantity,
 }: CartItemProps) => {
-  const [itemQuantity, setItemQuantity] = useState(quantity) // Local UI state
+  const [itemQuantity, setItemQuantity] = useState(quantity)
   const [error, setError] = useState<string>("")
 
-  // Function to handle API call for updating quantity
   const debouncedUpdateQuantity = useCallback(
-    debounce((id: number, newQuantity: number) => {
+    debounce((id: string, newQuantity: number) => {
       updateCartQuantity(id, newQuantity)
     }, 500),
     [updateCartQuantity],
   )
 
-  // Handle increment action
   const handleIncrement = () => {
     if (itemQuantity < stock_quantity) {
       const newQuantity = itemQuantity + 1
-      setItemQuantity(newQuantity) // Update UI immediately
-      debouncedUpdateQuantity(id, newQuantity) // Debounced API call
+      setItemQuantity(newQuantity)
+      debouncedUpdateQuantity(id, newQuantity)
       setError("")
     } else {
       setError(`Maximum available stock is ${stock_quantity}`)
     }
   }
 
-  // Handle decrement action
   const handleDecrement = () => {
     if (itemQuantity > 1) {
       const newQuantity = itemQuantity - 1
-      setItemQuantity(newQuantity) // Update UI immediately
-      debouncedUpdateQuantity(id, newQuantity) // Debounced API call
+      setItemQuantity(newQuantity)
+      debouncedUpdateQuantity(id, newQuantity)
       setError("")
     } else {
       setError("Minimum quantity is 1.")
@@ -107,6 +104,19 @@ const CartItem = ({
             Remove
           </Button>
         </Box>
+
+        {itemQuantity > stock_quantity && (
+          <Typography
+            sx={{
+              color: "error.main",
+              fontWeight: "bold",
+              fontSize: "12px",
+            }}
+          >
+            Only {stock_quantity} left! Please adjust quantity
+          </Typography>
+        )}
+
         {error && (
           <FormHelperText error sx={{ marginTop: 1 }}>
             {error}

@@ -94,7 +94,7 @@ const Cart = () => {
     }
   }, [userID])
 
-  const handleRemove = async (id: number) => {
+  const handleRemove = async (id: string) => {
     if (!userID) return
     try {
       console.log("userID", userID, "id", id)
@@ -107,7 +107,7 @@ const Cart = () => {
     }
   }
 
-  const updateCartQuantity = async (id: number, quantity: number) => {
+  const updateCartQuantity = async (id: string, quantity: number) => {
     if (!userID) return
 
     try {
@@ -186,6 +186,10 @@ const Cart = () => {
     handleCloseClearCartModal()
   }
 
+  const isCheckoutDisabled =
+    cartItems.length === 0 ||
+    cartItems.some((item) => item.quantity > item.stock_quantity)
+
   if (loading) {
     return (
       <Layout>
@@ -253,7 +257,7 @@ const Cart = () => {
                 </Button>
                 <Button
                   color='primary'
-                  disabled={cartItems.length === 0}
+                  disabled={isCheckoutDisabled}
                   onClick={handleOpenCheckoutModal}
                   sx={{ marginLeft: "8px", bgcolor: "#001F3F" }}
                   variant='contained'

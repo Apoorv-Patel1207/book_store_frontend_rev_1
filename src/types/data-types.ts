@@ -1,5 +1,4 @@
 export interface BookFormType {
-  id?: number // Optional in case it's auto-generated
   title: string
   author: string
   genre: string
@@ -15,7 +14,7 @@ export interface BookFormType {
 }
 
 export interface ApiResponseBook {
-  book_id: number
+  book_id: string
   title: string
   author: string
   genre: string
@@ -46,7 +45,6 @@ export interface CartItem extends ApiResponseBook {
 }
 
 export interface UserProfile {
-  userId?: string
   name: string
   email: string
   phone: string
@@ -55,7 +53,6 @@ export interface UserProfile {
   dob: string
   gender: string
   role?: "admin" | "salesman" | "customer"
-  createdAt?: string 
 }
 
 export interface ApiResponseUserProfile {
@@ -68,6 +65,8 @@ export interface ApiResponseUserProfile {
   dob: string
   gender: string
   role: "admin" | "salesman" | "customer"
+  created_at: string
+  updated_at: string
 }
 
 export interface Order {
@@ -79,7 +78,7 @@ export interface Order {
 }
 
 export interface ApiResponseOrder {
-  order_id: number
+  order_id: string
   user_id: string
   order_amount: number
   order_date: string

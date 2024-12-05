@@ -1,6 +1,8 @@
 import { ApiResponseBook, BookFormType } from "../types/data-types"
 
-const API_URL = "http://localhost:5000/api/books"
+const API_BASE_URL = process.env.REACT_APP_API_URL // http://localhost:5000/api
+const ENDPOINT = "/books"
+const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
 export const fetchBooks = async (
   page: number,
@@ -47,7 +49,7 @@ export const addBook = async (
 }
 
 export const updateBook = async (
-  id: number,
+  id: string,
   data: { price: number; stock_quantity: number },
 ) => {
   const response = await fetch(`${API_URL}/${id}`, {
@@ -66,7 +68,7 @@ export const updateBook = async (
 }
 
 // Delete a book by ID
-export const deleteBook = async (id: number): Promise<ApiResponseBook> => {
+export const deleteBook = async (id: string): Promise<ApiResponseBook> => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
   })

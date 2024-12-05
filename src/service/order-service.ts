@@ -1,6 +1,8 @@
 import { ApiResponseOrder, Order } from "../types/data-types"
 
-const API_URL = "http://localhost:5000/api/orders"
+const API_BASE_URL = process.env.REACT_APP_API_URL // http://localhost:5000/api
+const ENDPOINT = "/orders"
+const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
 // Fetch all orders
 export const fetchOrders = async (
@@ -24,7 +26,7 @@ export const fetchOrders = async (
 
 // Fetch a single order by ID
 export const fetchOrderById = async (
-  orderId: number,
+  orderId: string,
   userID: string,
 ): Promise<ApiResponseOrder> => {
   if (!userID) {

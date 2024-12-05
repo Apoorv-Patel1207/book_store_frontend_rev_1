@@ -40,7 +40,7 @@ export default [
       "react/sort-comp": "error",
       "no-use-before-define": "error",
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/exhaustive-deps": "off",
       eqeqeq: ["error", "always"],
       "import/order": [
         "error",

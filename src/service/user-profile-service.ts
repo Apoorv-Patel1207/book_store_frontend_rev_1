@@ -1,6 +1,8 @@
 import { ApiResponseUserProfile, UserProfile } from "src/types/data-types"
 
-const API_BASE_URL = "http://localhost:5000/api/users/profile"
+const API_BASE_URL = process.env.REACT_APP_API_URL // http://localhost:5000/api
+const ENDPOINT = "/users/profile"
+const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
 export const createUserProfile = async (
   userId: string,
@@ -27,7 +29,7 @@ export const getUserProfile = async (
   userId: string,
 ): Promise<ApiResponseUserProfile | null> => {
   try {
-    const response = await fetch(`${API_BASE_URL}`, {
+    const response = await fetch(`${API_URL}`, {
       method: "GET",
       headers: {
         "x-user-id": userId,
@@ -50,7 +52,7 @@ export const updateUserProfile = async (
   profileData: UserProfile,
 ): Promise<ApiResponseUserProfile | null> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/${userId}`, {
+    const response = await fetch(`${API_URL}/${userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

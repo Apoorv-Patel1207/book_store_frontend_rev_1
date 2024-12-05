@@ -21,13 +21,12 @@ import { useUser } from "../context/user-context"
 
 interface BookCardProps {
   book: ApiResponseBook
-  handleDelete: (id: number) => void
+  handleDelete: (id: string) => void
   handleUpdateBook: (updatedBook: ApiResponseBook) => void
 }
 
 const BookCard = (props: BookCardProps) => {
   const { book, handleDelete, handleUpdateBook } = props
-  console.log("book: ", book)
 
   const { userData } = useUser()
 

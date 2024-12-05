@@ -93,7 +93,7 @@ const Catalog = () => {
     }
   }, [isFetchingMore, hasMore])
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     try {
       await deleteBook(id)
       setBooks((prevBooks) => prevBooks.filter((book) => book.book_id !== id))
