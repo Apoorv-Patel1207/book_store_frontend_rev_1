@@ -69,6 +69,12 @@ export interface ApiResponseUserProfile {
   updated_at: string
 }
 
+export interface RecipientUserProfile {
+  name: string
+  phone: string
+  address: string
+}
+
 export interface Order {
   total_amount: number
   recipient_name: string

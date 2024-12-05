@@ -30,7 +30,7 @@ import { placeOrder } from "../service/order-service"
 import {
   CartItem as CartItemType,
   Order,
-  ApiResponseUserProfile,
+  RecipientUserProfile,
 } from "../types/data-types"
 
 const Cart = () => {
@@ -39,9 +39,7 @@ const Cart = () => {
   const [error, setError] = useState<string | null>(null)
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false)
   const [isClearCartModalOpen, setIsClearCartModalOpen] = useState(false)
-  const [userProfile, setUserProfile] = useState<ApiResponseUserProfile | null>(
-    null,
-  )
+
   const [isPlacingOrder, setIsPlacingOrder] = useState(false)
 
   const navigate = useNavigate()
@@ -62,13 +60,6 @@ const Cart = () => {
   const showSnackbar = (message: string, type: AlertColor = "success") => {
     setSnackbar({ open: true, message, type })
   }
-
-  // Update user profile when userData changes
-  useEffect(() => {
-    if (userData) {
-      setUserProfile(userData)
-    }
-  }, [userData])
 
   useEffect(() => {
     const getCartItems = async () => {
@@ -143,8 +134,10 @@ const Cart = () => {
     0,
   )
 
-  const handleConfirmBuy = async () => {
-    if (!userProfile) {
+  const handleConfirmBuy = async (data: RecipientUserProfile) => {
+   
+
+    if (!userID) {
       showSnackbar(
         "Please login and complete your profile to continue.",
         "error",
@@ -152,15 +145,14 @@ const Cart = () => {
       return
     }
 
-    setIsPlacingOrder(true)
-    if (!userID) return
+     setIsPlacingOrder(true)
 
     const order: Order = {
       items: cartItems,
       total_amount: Number(totalCost.toFixed(2)),
-      recipient_name: userProfile.name,
-      recipient_phone: userProfile.phone,
-      shipping_address: userProfile.address,
+      recipient_name: data.name,
+      recipient_phone: data.phone,
+      shipping_address: data.address,
     }
 
     try {
@@ -289,9 +281,8 @@ const Cart = () => {
           handleConfirmBuy={handleConfirmBuy}
           isCheckoutModalOpen={isCheckoutModalOpen}
           isPlacingOrder={isPlacingOrder}
-          setUserProfile={setUserProfile}
           totalCost={totalCost}
-          userProfile={userProfile}
+          userData={userData}
         />
 
         <ClearCartDialog

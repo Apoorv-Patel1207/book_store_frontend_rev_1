@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import {
   Container,
   Typography,
@@ -14,8 +15,10 @@ import {
   Paper,
   Avatar,
   Box,
+  Button,
 } from "@mui/material"
 import Grid from "@mui/material/Grid2"
+import { useNavigate } from "react-router-dom"
 import { useUserID } from "src/components/auth/userID"
 import { formatDate } from "src/components/utility-components/format-date"
 import Loading from "src/components/utility-components/loading"
@@ -31,6 +34,7 @@ const OrderHistoryPage = () => {
   const [loading, setLoading] = useState(true)
 
   const userID = useUserID()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (userID) {
@@ -147,6 +151,21 @@ const OrderHistoryPage = () => {
             </Card>
           ))
         )}
+
+        <Button
+          onClick={() => navigate("/")}
+          startIcon={<ArrowBackIcon />}
+          sx={{
+            color: "#001F3F",
+            textTransform: "none",
+            fontWeight: "bold",
+            fontSize: "14px",
+            mt: 2,
+          }}
+          variant='text'
+        >
+          Back to Books
+        </Button>
       </Container>
     </Layout>
   )

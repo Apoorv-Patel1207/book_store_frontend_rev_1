@@ -168,7 +168,6 @@ const BookDetails = () => {
 
     try {
       await addToCart(item, userID)
-      console.log("Item added to cart:", item)
       navigate("/cart")
     } catch (err) {
       setError((err as Error).message)

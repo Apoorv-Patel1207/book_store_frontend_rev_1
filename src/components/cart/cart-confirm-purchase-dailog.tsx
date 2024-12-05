@@ -1,5 +1,4 @@
-import { SetStateAction } from "react"
-
+import { yupResolver } from "@hookform/resolvers/yup"
 import {
   Dialog,
   DialogTitle,
@@ -10,38 +9,68 @@ import {
   DialogActions,
   Button,
 } from "@mui/material"
-import { ApiResponseUserProfile } from "src/types/data-types"
+import { useForm, SubmitHandler } from "react-hook-form"
+import {
+  ApiResponseUserProfile,
+  RecipientUserProfile,
+} from "src/types/data-types"
+import * as Yup from "yup"
 
 interface CartConfirmPurchaseDailogProps {
   isCheckoutModalOpen: boolean
   handleCloseCheckoutModal: () => void
   totalCost: number
-  userProfile: ApiResponseUserProfile | null
-  setUserProfile: (value: SetStateAction<ApiResponseUserProfile | null>) => void
-  handleConfirmBuy: () => Promise<void>
+  handleConfirmBuy: (data: RecipientUserProfile) => Promise<void>
   isPlacingOrder: boolean
+  userData: ApiResponseUserProfile | null
 }
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  phone: Yup.string()
+    .required("Mobile Number is required")
+    .matches(/^\d{10}$/, "Mobile Number must be 10 digits"),
+  address: Yup.string().required("Address is required"),
+})
 
 const CartConfirmPurchaseDailog = (props: CartConfirmPurchaseDailogProps) => {
   const {
     isCheckoutModalOpen,
     handleCloseCheckoutModal,
     totalCost,
-    userProfile,
-    setUserProfile,
     handleConfirmBuy,
     isPlacingOrder,
+    userData,
   } = props
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RecipientUserProfile>({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      name: userData?.name,
+      phone: userData?.phone,
+      address: userData?.address,
+    },
+  })
+
+  const onSubmit: SubmitHandler<RecipientUserProfile> = async (data) => {
+    await handleConfirmBuy(data)
+  }
+
   return (
     <Dialog onClose={handleCloseCheckoutModal} open={isCheckoutModalOpen}>
       <DialogTitle>Confirm Checkout</DialogTitle>
       <DialogContent>
         <Typography>
-          Please confirm your details before proceeding. Your total is Rs{" "}
+          Please confirm your details before proceeding. Your total is ₹{" "}
           {totalCost}.
         </Typography>
         <Box
           component='form'
+          onSubmit={handleSubmit(onSubmit)}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -52,54 +81,45 @@ const CartConfirmPurchaseDailog = (props: CartConfirmPurchaseDailogProps) => {
           <TextField
             fullWidth
             label='Name'
-            onChange={(e) =>
-              setUserProfile((prev) =>
-                prev ? { ...prev, name: e.target.value } : null,
-              )
-            }
-            value={userProfile?.name || ""}
+            {...register("name")}
+            error={!!errors.name}
+            helperText={errors.name?.message}
             variant='outlined'
           />
           <TextField
             fullWidth
             label='Mobile Number'
-            onChange={(e) =>
-              setUserProfile((prev) =>
-                prev ? { ...prev, phone: e.target.value } : null,
-              )
-            }
-            value={userProfile?.phone || ""}
+            {...register("phone")}
+            error={!!errors.phone}
+            helperText={errors.phone?.message}
             variant='outlined'
           />
           <TextField
             fullWidth
             label='Address'
             multiline
-            onChange={(e) =>
-              setUserProfile((prev) =>
-                prev ? { ...prev, address: e.target.value } : null,
-              )
-            }
             rows={3}
-            value={userProfile?.address || ""}
+            {...register("address")}
+            error={!!errors.address}
+            helperText={errors.address?.message}
             variant='outlined'
           />
+          <DialogActions>
+            <Button color='primary' onClick={handleCloseCheckoutModal}>
+              Cancel
+            </Button>
+            <Button
+              color='primary'
+              disabled={isPlacingOrder}
+              sx={{ ml: 1 }}
+              type='submit'
+              variant='contained'
+            >
+              {isPlacingOrder ? "Placing Order..." : "Confirm Buy"}
+            </Button>
+          </DialogActions>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button color='primary' onClick={handleCloseCheckoutModal}>
-          Cancel
-        </Button>
-        <Button
-          color='primary'
-          disabled={isPlacingOrder}
-          onClick={handleConfirmBuy}
-          sx={{ ml: 1 }}
-          variant='contained'
-        >
-          {isPlacingOrder ? "Placing Order..." : "Confirm Buy"}
-        </Button>
-      </DialogActions>
     </Dialog>
   )
 }
