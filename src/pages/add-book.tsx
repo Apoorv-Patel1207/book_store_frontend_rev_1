@@ -45,13 +45,12 @@ const AdminPanel = () => {
     } catch (error) {
       console.error("Error approving book:", error)
       showSnackbar("error adding book to the catalog", "error")
-   
     }
   }
 
   return (
     <Layout>
-      <Container maxWidth='md'>
+      <Container>
         <PageHeading>Admin Panel</PageHeading>
 
         {!showForm ? (

@@ -32,17 +32,13 @@ function Learning() {
   ]
 
   // ---------- To Do ---------
-  // Remove nodemodules in backend github
-  // Database connectivity,
   // Debouncing, Skelton UI,
-  //  Icons on drawer links, user data on drawer nav,
-  // add book api, dropbox for image
-  // Fix the input field at the cart,
-  // Handle the out of stock situation
+  //  dropbox for image
+  // Fix the input field of admin and sales book addition form,
 
   // Features : Price Slider, Responsive, Search, filters,
   // Concepts:  Infinite scroll,  lazy loading, use memo, callback,
-  // Tech and libraries : react router DOM, react intersection observer, react hook form,
+  // Tech and libraries : react router DOM, react hook form,
   // Handle the hover effect in mobile
   // integrated auth 0 authentication
   // use context for catching of user profile data

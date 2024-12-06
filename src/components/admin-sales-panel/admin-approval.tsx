@@ -74,14 +74,14 @@ const AdminApproval = () => {
     books: ApiResponseBook[],
     actions = false,
   ) => (
-    <Container maxWidth='lg' sx={{ mt: 4 }}>
+    <Container sx={{ mt: 4,  }}>
       <Typography gutterBottom variant='h6'>
         {title}
       </Typography>
       {books.length === 0 ? (
         <NoDataFound description={`No books in ${title} list.`} />
       ) : (
-        <TableContainer component={Paper}>
+        <TableContainer  component={Paper} sx={{ width: "100%",  }}>
           <Table>
             <TableHead>
               <TableRow>

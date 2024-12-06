@@ -25,6 +25,7 @@ import ConfirmPurchaseDialog from "src/components/order/confirm-purchase-dialog"
 import Loading from "src/components/utility-components/loading"
 import NoDataFound from "src/components/utility-components/no-data"
 import PageHeading from "src/components/utility-components/page-headings"
+import { useIsMobile } from "src/components/utility-components/screen-size"
 import SnackbarAlert from "src/components/utility-components/snackbar"
 
 import CartItem from "../components/cart/cart-item"
@@ -63,6 +64,8 @@ const Cart = () => {
     setSnackbar({ open: true, message, type })
   }
 
+  const isMobile = useIsMobile()
+
   useEffect(() => {
     const getCartItems = async () => {
       if (!userID) {
@@ -90,7 +93,6 @@ const Cart = () => {
   const handleRemove = async (id: string) => {
     if (!userID) return
     try {
-      console.log("userID", userID, "id", id)
       await removeFromCart(userID, id)
       setCartItems((prevItems) =>
         prevItems.filter((item) => item.book_id !== id),
@@ -174,26 +176,26 @@ const Cart = () => {
       <Container maxWidth='lg'>
         <PageHeading>Shopping Cart</PageHeading>
 
-        <Card sx={{ mb: 3 }} variant='outlined'>
-          <CardContent>
-            <TableContainer component={Paper} sx={{ mt: 2 }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Book</TableCell>
-                    <TableCell sx={{ minWidth: "150px" }}>Title</TableCell>
+        {cartItems.length === 0 ? (
+          <NoDataFound description=' You have not added anything on card yet.' />
+        ) : (
+          <Card sx={{ mb: 3 }} variant='outlined'>
+            <CardContent>
+              <TableContainer component={Paper} sx={{ mt: 2 }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Book</TableCell>
+                      <TableCell sx={{ minWidth: "150px" }}>Title</TableCell>
 
-                    <TableCell sx={{ minWidth: "100px" }}>Price</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell sx={{ minWidth: "100px" }}>Total</TableCell>
-                    <TableCell>Remove</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {cartItems.length === 0 ? (
-                    <NoDataFound description=' You have not added anything on card yet.' />
-                  ) : (
-                    cartItems.map((item) => (
+                      <TableCell sx={{ minWidth: "100px" }}>Price</TableCell>
+                      <TableCell>Quantity</TableCell>
+                      <TableCell sx={{ minWidth: "100px" }}>Total</TableCell>
+                      <TableCell>Remove</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {cartItems.map((item) => (
                       <CartItem
                         author={item.author}
                         cover_image={item.cover_image}
@@ -206,53 +208,60 @@ const Cart = () => {
                         title={item.title}
                         updateCartQuantity={updateCartQuantity}
                       />
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
 
-            <Grid container justifyContent='flex-end' sx={{ mt: 2 }}>
-              <Grid>
-                <Typography
-                  display='flex'
-                  fontWeight='bold'
-                  justifyContent='flex-end'
-                  mb={2}
-                >
-                  Total: Rs {totalCost.toFixed(2)}
-                </Typography>
-                <Box
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Box>
-                    <Button
-                      color='error'
-                      disabled={cartItems.length === 0}
-                      onClick={handleOpenClearCartModal}
-                      variant='outlined'
-                    >
-                      Clear Cart
-                    </Button>
-                    <Button
-                      color='primary'
-                      disabled={isCheckoutDisabled}
-                      onClick={handleOpenCheckoutModal}
-                      sx={{ marginLeft: "8px", bgcolor: "#001F3F" }}
-                      variant='contained'
-                    >
-                      Proceed to Checkout
-                    </Button>
+              <Grid container justifyContent='flex-end' sx={{ mt: 2 }}>
+                <Grid>
+                  <Typography
+                    display='flex'
+                    fontWeight='bold'
+                    justifyContent='flex-end'
+                    mb={2}
+                  >
+                    Total: Rs {totalCost.toFixed(2)}
+                  </Typography>
+                  <Box
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box>
+                      <Button
+                        color='error'
+                        disabled={cartItems.length === 0}
+                        fullWidth={isMobile}
+                        onClick={handleOpenClearCartModal}
+                        variant='outlined'
+                      >
+                        Clear Cart
+                      </Button>
+                      <Button
+                        color='primary'
+                        disabled={isCheckoutDisabled}
+                        fullWidth={isMobile}
+                        onClick={handleOpenCheckoutModal}
+                        sx={{
+                          marginLeft: !isMobile ? "8px" : "0px",
+                          marginTop: isMobile ? 2 : "0px",
+
+                          bgcolor: "#001F3F",
+                        }}
+                        variant='contained'
+                      >
+                        Proceed to Checkout
+                      </Button>
+                    </Box>
                   </Box>
-                </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
 
         <Button
           onClick={() => navigate("/")}

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 
 import FilterListIcon from "@mui/icons-material/FilterList"
+import FilterListOffIcon from "@mui/icons-material/FilterListOff"
 import {
   Box,
   CircularProgress,
@@ -26,7 +27,7 @@ const Catalog = () => {
   const [priceValue, setPriceValue] = useState<number[]>([0, 1000])
   const [tempSearchQuery, setTempSearchQuery] = useState("")
   const [tempFilterGenre, setTempFilterGenre] = useState("all")
-  const [tempPriceValue, setTempPriceValue] = useState<number[]>([0, 100])
+  const [tempPriceValue, setTempPriceValue] = useState<number[]>([0, 1000])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
@@ -128,26 +129,32 @@ const Catalog = () => {
   const handleResetFilters = () => {
     setSearchQuery("")
     setFilterGenre("all")
-    setPriceValue([0, 100])
+    setPriceValue([0, 1000])
 
     setTempSearchQuery("")
     setTempFilterGenre("all")
-    setTempPriceValue([0, 100])
+    setTempPriceValue([0, 1000])
     setPage(1)
     setBooks([])
     setDrawerOpen(false)
   }
+
+  const areFiltersApplied =
+    searchQuery.trim() !== "" ||
+    filterGenre !== "all" ||
+    priceValue[0] !== 0 ||
+    priceValue[1] !== 1000
 
   return (
     <Layout>
       <PageHeading sx={{ mb: -1 }}>
         Turn the Page to Endless Possibilities
       </PageHeading>
-
       <Box display='flex' justifyContent='end'>
         <IconButton
           onClick={toggleDrawer(true)}
           sx={{
+            // bgcolor: areFiltersApplied ? "crimson" : "#1F2937",
             bgcolor: "#1F2937",
             color: "white",
             mr: 2,
@@ -156,7 +163,7 @@ const Catalog = () => {
             },
           }}
         >
-          <FilterListIcon />
+          {areFiltersApplied ? <FilterListOffIcon /> : <FilterListIcon />}
         </IconButton>
       </Box>
 
@@ -172,13 +179,11 @@ const Catalog = () => {
           tempSearchQuery={tempSearchQuery}
         />
       </Drawer>
-
       {isLoading && (
         <Box display='flex' justifyContent='center' my={4}>
           <CircularProgress />
         </Box>
       )}
-
       <Grid container sx={{ marginTop: { md: 2 } }}>
         {books.length > 0
           ? books.map((book) => (
@@ -206,7 +211,6 @@ const Catalog = () => {
               </Grid>
             )}
       </Grid>
-
       {isFetchingMore && (
         <Box sx={{ width: "100%" }}>
           <Loading />

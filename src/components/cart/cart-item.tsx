@@ -12,6 +12,8 @@ import {
   Typography,
 } from "@mui/material"
 import debounce from "lodash.debounce"
+import { useNavigate } from "react-router-dom"
+
 interface CartItemProps {
   id: string
   title: string
@@ -59,18 +61,24 @@ const CartItem = ({
       debouncedUpdateQuantity(id, newQuantity)
     }
   }
+  const navigate = useNavigate()
+
+  const handleCardClick = () => {
+    navigate(`/book-details/${id}`)
+  }
 
   return (
     <TableRow>
       <TableCell>
         <Avatar
           alt={title}
+          onClick={handleCardClick}
           src={cover_image}
-          sx={{ width: 56, height: 56 }}
+          sx={{ width: 56, height: 56, cursor: "pointer" }}
           variant='rounded'
         />
       </TableCell>
-      <TableCell>
+      <TableCell onClick={handleCardClick} sx={{ cursor: "pointer" }}>
         <Typography>{title}</Typography> <Typography>{author}</Typography>
       </TableCell>
       <TableCell>₹ {price}</TableCell>
