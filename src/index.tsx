@@ -1,10 +1,9 @@
 import { Auth0Provider } from "@auth0/auth0-react"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
-import ReactDOM from "react-dom/client" // React 18+ uses react-dom/client
+import ReactDOM from "react-dom/client" 
 
 import App from "./App"
-// import "./App.css";
 import theme from "./theme"
 
 const rootElement = document.getElementById("root")

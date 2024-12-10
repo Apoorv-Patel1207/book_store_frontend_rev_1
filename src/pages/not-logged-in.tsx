@@ -1,26 +1,3 @@
-// import { Box, Typography, Button } from "@mui/material"
-// import { useNavigate } from "react-router-dom"
-
-// const NotLoggedIn = () => {
-//   const navigate = useNavigate()
-
-//   return (
-//     <Box textAlign='center' mt={4}>
-//       <Typography variant='h4' gutterBottom>
-//         Access Denied
-//       </Typography>
-//       <Typography variant='body1' gutterBottom>
-//         You need to be logged in to view this page.
-//       </Typography>
-//       <Button variant='contained' color='primary' onClick={() => navigate("/")}>
-//         GO BACK TO BROWSE BOOKS
-//       </Button>
-//     </Box>
-//   )
-// }
-
-// export default NotLoggedIn
-
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { Box, Typography, Button, Container, Stack } from "@mui/material"
 import { useNavigate } from "react-router-dom"

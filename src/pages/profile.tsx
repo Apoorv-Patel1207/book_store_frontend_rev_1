@@ -187,7 +187,6 @@ const Profile = () => {
             </Box>
           </Stack>
         ) : (
-          // <ProfileForm onSubmit={onSubmit} profile={profile} />
           <ProfileForm
             onClose={handleCloseEditingDialog}
             onSubmit={onSubmit}

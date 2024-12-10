@@ -150,9 +150,9 @@ const Header = () => {
                   key={link.path}
                   sx={{
                     fontWeight: "semibold",
-                    color: location.pathname === link.path ? "black" : "white", // Active color
+                    color: location.pathname === link.path ? "black" : "white",
 
-                    bgcolor: location.pathname === link.path ? "white" : "none", // Active color
+                    bgcolor: location.pathname === link.path ? "white" : "none",
                     textTransform: "none",
                     mb: 1,
                     borderRadius: 0,

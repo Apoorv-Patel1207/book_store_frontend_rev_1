@@ -1,10 +1,9 @@
 import { ApiResponseOrder, Order } from "../types/data-types"
 
-const API_BASE_URL = process.env.REACT_APP_API_URL // http://localhost:5000/api
+const API_BASE_URL = process.env.REACT_APP_API_URL 
 const ENDPOINT = "/orders"
 const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
-// Fetch all orders
 export const fetchOrders = async (
   userID: string,
 ): Promise<ApiResponseOrder[]> => {
@@ -24,7 +23,6 @@ export const fetchOrders = async (
   return (await response.json()) as ApiResponseOrder[]
 }
 
-// Fetch a single order by ID
 export const fetchOrderById = async (
   orderId: string,
   userID: string,
@@ -45,7 +43,6 @@ export const fetchOrderById = async (
   return (await response.json()) as ApiResponseOrder
 }
 
-// Place an order
 export const placeOrder = async (
   order: Order,
   userID: string,
@@ -69,7 +66,6 @@ export const placeOrder = async (
   return (await response.json()) as ApiResponseOrder
 }
 
-// Update order status
 export const updateOrderStatus = async (
   id: number,
   status: string,
@@ -92,7 +88,6 @@ export const updateOrderStatus = async (
   return (await response.json()) as Order
 }
 
-// Delete an order
 export const deleteOrder = async (
   id: number,
   userID: string,

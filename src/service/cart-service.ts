@@ -1,10 +1,9 @@
 import { CartItem } from "../types/data-types"
 
-const API_BASE_URL = process.env.REACT_APP_API_URL // http://localhost:5000/api
+const API_BASE_URL = process.env.REACT_APP_API_URL 
 const ENDPOINT = "/cart"
 const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
-// Fetch cart items from the server
 export const fetchCartItems = async (userId: string): Promise<CartItem[]> => {
   const response = await fetch(API_URL, {
     headers: {
@@ -17,7 +16,6 @@ export const fetchCartItems = async (userId: string): Promise<CartItem[]> => {
   return (await response.json()) as CartItem[]
 }
 
-// Add an item to the cart
 export const addToCart = async (
   item: CartItem,
   userId: string,
@@ -36,7 +34,6 @@ export const addToCart = async (
   return (await response.json()) as CartItem
 }
 
-// Remove an item from the cart by ID
 export const removeFromCart = async (
   userId: string,
   itemId: string,
@@ -53,7 +50,6 @@ export const removeFromCart = async (
   return (await response.json()) as CartItem
 }
 
-// Clear the cart
 export const clearCart = async (userId: string): Promise<void> => {
   const response = await fetch(`${API_URL}/clear`, {
     method: "DELETE",
@@ -66,7 +62,6 @@ export const clearCart = async (userId: string): Promise<void> => {
   }
 }
 
-// Update cart item quantity
 export const updateCartQuantityService = async (
   userId: string,
   itemId: string,

@@ -1,4 +1,3 @@
-// DeleteConfirmationDialog.tsx
 import {
   Dialog,
   DialogActions,

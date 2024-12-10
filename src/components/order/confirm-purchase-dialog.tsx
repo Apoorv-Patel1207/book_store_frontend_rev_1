@@ -27,7 +27,6 @@ import {
 import * as Yup from "yup"
 
 import { useUser } from "../context/user-context"
-// import { useIsMobile } from "../utility-components/screen-size"
 
 interface CartConfirmPurchaseDialogProps {
   isBulkPurchase: boolean
@@ -51,7 +50,6 @@ const validationSchema = Yup.object().shape({
 
 const ConfirmPurchaseDialog = (props: CartConfirmPurchaseDialogProps) => {
   const {
-    // isBulkPurchase,
     isCheckoutModalOpen,
     handleCloseCheckoutModal,
     totalCost,
@@ -135,12 +133,10 @@ const ConfirmPurchaseDialog = (props: CartConfirmPurchaseDialogProps) => {
     await handleConfirmBuy(data)
   }
 
-  // const isMobile = useIsMobile()
 
   return (
     <Dialog
       fullWidth
-      // maxWidth={isMobile ? "xs" : "sm"}
       onClose={handleCloseCheckoutModal}
       open={isCheckoutModalOpen}
     >

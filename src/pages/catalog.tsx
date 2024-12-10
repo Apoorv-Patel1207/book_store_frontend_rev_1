@@ -154,7 +154,6 @@ const Catalog = () => {
         <IconButton
           onClick={toggleDrawer(true)}
           sx={{
-            // bgcolor: areFiltersApplied ? "crimson" : "#1F2937",
             bgcolor: "#1F2937",
             color: "white",
             mr: 2,

@@ -26,7 +26,6 @@ const LoginButton = () => {
     const checkOrCreateUser = async () => {
       if (isAuthenticated && user?.sub && !userData) {
         try {
-          // If the user does not have an existing profile, create it
           const existingUser = await getUserProfile(user.sub)
           if (existingUser) {
             setUserData(existingUser)
@@ -44,7 +43,6 @@ const LoginButton = () => {
       }
     }
 
-    // Only run the API calls when the user is authenticated and we haven't set the userData yet
     checkOrCreateUser().catch((err) =>
       console.error("Error while creating or fetching the user:", err),
     )
@@ -68,9 +66,7 @@ const LoginButton = () => {
             </Avatar>
           </IconButton>
 
-          {/* <Typography fontSize={14}>
-            {user?.given_name || user?.email}
-          </Typography> */}
+         
 
           <IconButton
             color='inherit'
