@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react"
 
-import { Container, Button, Typography } from "@mui/material"
-import Grid from "@mui/material/Grid2"
+import CakeIcon from "@mui/icons-material/Cake"
+import EditIcon from "@mui/icons-material/Edit"
+import EmailIcon from "@mui/icons-material/Email"
+import HomeIcon from "@mui/icons-material/Home"
+import PhoneIcon from "@mui/icons-material/Phone"
+import {
+  Container,
+  Typography,
+  Avatar,
+  Box,
+  Stack,
+  IconButton,
+} from "@mui/material"
 import { SubmitHandler } from "react-hook-form"
 import { useUserID } from "src/components/auth/userID"
 import ProfileForm from "src/components/profile/profile-form"
@@ -76,48 +87,103 @@ const Profile = () => {
 
   return (
     <Layout>
-      <Container maxWidth='md'>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: "#1F2937",
+          zIndex: -1,
+        }}
+      />
+
+      <Container maxWidth='md' sx={{ color: "white" }}>
         <PageHeading>{editing ? "Edit Profile" : "User Profile"}</PageHeading>
 
-        {error && <Typography color='error'>{error}</Typography>}
+        {error && (
+          <Typography color='error' sx={{ mb: 2 }} variant='body2'>
+            {error}
+          </Typography>
+        )}
 
         {!editing ? (
-          <div>
-            <Grid container spacing={2}>
-              {[
-                { label: "Name", value: profile?.name },
-                { label: "Email", value: profile?.email },
-                { label: "Phone", value: profile?.phone },
-                { label: "Address", value: profile?.address },
-                { label: "DOB", value: profile?.dob },
-                { label: "Gender", value: profile?.gender },
-              ].map((item) => (
-                <Grid key={item.value}>
-                  <Typography variant='h6'>
-                    {item.label}: {item.value || "N/A"}
-                  </Typography>
-                </Grid>
-              ))}
-              <Grid>
-                <Typography variant='h6'>Profile Image:</Typography>
-                {profile?.profile_image && (
-                  <img
-                    alt='profile'
-                    src={profile.profile_image}
-                    style={{ maxWidth: "100px" }}
+          <Stack alignItems='center'>
+            <Box display='flex' flexDirection='row' justifyContent='center'>
+              <Stack alignItems='center'>
+                <Stack
+                  direction='row'
+                  justifyContent='center'
+                  position='relative'
+                >
+                  <Avatar
+                    alt={profile?.name}
+                    src={profile?.profile_image}
+                    sx={{
+                      width: "200px",
+                      height: "200px",
+                      border: "5px white solid",
+                    }}
                   />
-                )}
-              </Grid>
-            </Grid>
-            <Button
-              color='primary'
-              onClick={() => setEditing(true)}
-              sx={{ mt: 2 }}
-              variant='contained'
-            >
-              Edit Profile
-            </Button>
-          </div>
+
+                  <IconButton
+                    onClick={() => setEditing(true)}
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 8,
+                      backgroundColor: "crimson",
+                      color: "white",
+                      "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </Stack>
+
+                <Typography my={1}>{profile?.name || "N/A"}</Typography>
+                <Typography>{profile?.email || "N/A"}</Typography>
+              </Stack>
+
+              <Stack m={4} spacing={2} width='100%'>
+                <Stack alignItems='center' direction='row' spacing={2}>
+                  <PhoneIcon sx={{ color: "white" }} />
+                  <Typography color='white' variant='body1'>
+                    {profile?.phone || "N/A"}
+                  </Typography>
+                </Stack>
+
+                <Stack alignItems='center' direction='row' spacing={2}>
+                  <EmailIcon sx={{ color: "white" }} />
+                  <Typography color='white' variant='body1'>
+                    {profile?.email || "N/A"}
+                  </Typography>
+                </Stack>
+
+                <Stack alignItems='center' direction='row' spacing={2}>
+                  <CakeIcon sx={{ color: "white" }} />
+                  <Typography color='white' variant='body1'>
+                    {profile?.dob.split("T")[0] || "N/A"}
+                  </Typography>
+                </Stack>
+
+                <Stack alignItems='center' direction='row' spacing={2}>
+                  <HomeIcon sx={{ color: "white" }} />
+                  <Typography color='white' variant='body1'>
+                    {profile?.gender || "N/A"}
+                  </Typography>
+                </Stack>
+
+                <Stack alignItems='center' direction='row' spacing={2}>
+                  <HomeIcon sx={{ color: "white" }} />
+                  <Typography color='white' variant='body1'>
+                    {profile?.address || "N/A"}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Box>
+          </Stack>
         ) : (
           <ProfileForm onSubmit={onSubmit} profile={profile} />
         )}
