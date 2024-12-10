@@ -69,6 +69,16 @@ export interface ApiResponseUserProfile {
   updated_at: string
 }
 
+export interface ProfileFormValues {
+  name: string
+  email: string
+  phone: string
+  address?: string
+  profileImage?: string
+  dob?: string
+  gender?: string
+}
+
 export interface RecipientUserProfile {
   name: string
   phone: string
