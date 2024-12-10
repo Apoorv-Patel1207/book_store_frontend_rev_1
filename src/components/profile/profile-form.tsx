@@ -7,6 +7,10 @@ import {
   Select,
   MenuItem,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from "@mui/material"
 import Grid from "@mui/material/Grid2"
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -16,6 +20,8 @@ import * as Yup from "yup"
 interface ProfileFormProps {
   profile: ApiResponseUserProfile | null
   onSubmit: SubmitHandler<ProfileFormValues>
+  open: boolean
+  onClose: () => void
 }
 
 const validationSchema = Yup.object().shape({
@@ -30,7 +36,12 @@ const validationSchema = Yup.object().shape({
   gender: Yup.string().optional(),
 })
 
-const ProfileForm = ({ onSubmit, profile }: ProfileFormProps) => {
+const ProfileForm = ({
+  onSubmit,
+  profile,
+  open,
+  onClose,
+}: ProfileFormProps) => {
   const {
     register,
     handleSubmit,
@@ -49,98 +60,104 @@ const ProfileForm = ({ onSubmit, profile }: ProfileFormProps) => {
   })
 
   return (
-    <form noValidate onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label='Name'
-            {...register("name")}
-            error={!!errors.name}
-            helperText={errors.name?.message}
-          />
-        </Grid>
+    <Dialog fullWidth maxWidth='md' onClose={onClose} open={open}>
+      <DialogTitle>Edit Profile</DialogTitle>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent>
+          <Grid container spacing={2} sx={{ color: "white" }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label='Name'
+                {...register("name")}
+                error={!!errors.name}
+                helperText={errors.name?.message}
+              />
+            </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label='Email'
-            type='email'
-            {...register("email")}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-        </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label='Email'
+                type='email'
+                {...register("email")}
+                error={!!errors.email}
+                helperText={errors.email?.message}
+              />
+            </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label='Phone'
-            {...register("phone")}
-            error={!!errors.phone}
-            helperText={errors.phone?.message}
-          />
-        </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label='Phone'
+                {...register("phone")}
+                error={!!errors.phone}
+                helperText={errors.phone?.message}
+              />
+            </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label='Address'
-            {...register("address")}
-            error={!!errors.address}
-            helperText={errors.address?.message}
-          />
-        </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label='Address'
+                {...register("address")}
+                error={!!errors.address}
+                helperText={errors.address?.message}
+              />
+            </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label='Profile Image URL'
-            {...register("profileImage")}
-            error={!!errors.profileImage}
-            helperText={errors.profileImage?.message}
-          />
-        </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label='Profile Image URL'
+                {...register("profileImage")}
+                error={!!errors.profileImage}
+                helperText={errors.profileImage?.message}
+              />
+            </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label='Date of Birth'
-            type='date'
-            {...register("dob")}
-            error={!!errors.dob}
-            helperText={errors.dob?.message}
-          />
-        </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                fullWidth
+                label='Date of Birth'
+                type='date'
+                {...register("dob")}
+                error={!!errors.dob}
+                helperText={errors.dob?.message}
+              />
+            </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <FormControl error={!!errors.gender} fullWidth>
-            <InputLabel>Gender</InputLabel>
-            <Select {...register("gender")} defaultValue=''>
-              <MenuItem value=''>Select Gender</MenuItem>
-              <MenuItem value='male'>Male</MenuItem>
-              <MenuItem value='female'>Female</MenuItem>
-              <MenuItem value='other'>Other</MenuItem>
-            </Select>
-            {errors.gender && (
-              <Typography color='error'>{errors.gender.message}</Typography>
-            )}
-          </FormControl>
-        </Grid>
-
-        <Grid size={{ xs: 12, sm: 6 }}>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FormControl error={!!errors.gender} fullWidth>
+                <InputLabel>Gender</InputLabel>
+                <Select {...register("gender")} defaultValue=''>
+                  <MenuItem value=''>Select Gender</MenuItem>
+                  <MenuItem value='male'>Male</MenuItem>
+                  <MenuItem value='female'>Female</MenuItem>
+                  <MenuItem value='other'>Other</MenuItem>
+                </Select>
+                {errors.gender && (
+                  <Typography color='error'>{errors.gender.message}</Typography>
+                )}
+              </FormControl>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button color='error' onClick={onClose} variant='outlined'>
+            Cancel
+          </Button>
           <Button
             color='primary'
-            // disabled={isSubmitting}
-            sx={{ mt: 2 }}
+            sx={{ bgcolor: "#001F3F" }}
             type='submit'
             variant='contained'
           >
             Save Changes
           </Button>
-        </Grid>
-      </Grid>
-    </form>
+        </DialogActions>
+      </form>
+    </Dialog>
   )
 }
 

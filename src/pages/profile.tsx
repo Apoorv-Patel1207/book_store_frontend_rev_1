@@ -28,8 +28,10 @@ import Layout from "../components/layout/layout"
 const Profile = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
-  const [editing, setEditing] = useState<boolean>(false)
   const [profile, setProfile] = useState<ApiResponseUserProfile | null>(null)
+  const [editing, setEditing] = useState<boolean>(false)
+  const handleOpenEditingDialog = () => setEditing(true)
+  const handleCloseEditingDialog = () => setEditing(false)
 
   const userID = useUserID()
 
@@ -74,7 +76,7 @@ const Profile = () => {
 
       if (updatedProfile) {
         setProfile(updatedProfile)
-        setEditing(false)
+        handleCloseEditingDialog()
       } else {
         setError("Failed to update user profile.")
       }
@@ -128,7 +130,7 @@ const Profile = () => {
                   />
 
                   <IconButton
-                    onClick={() => setEditing(true)}
+                    onClick={handleOpenEditingDialog}
                     sx={{
                       position: "absolute",
                       top: 8,
@@ -185,7 +187,13 @@ const Profile = () => {
             </Box>
           </Stack>
         ) : (
-          <ProfileForm onSubmit={onSubmit} profile={profile} />
+          // <ProfileForm onSubmit={onSubmit} profile={profile} />
+          <ProfileForm
+            onClose={handleCloseEditingDialog}
+            onSubmit={onSubmit}
+            open={editing}
+            profile={profile}
+          />
         )}
       </Container>
     </Layout>
