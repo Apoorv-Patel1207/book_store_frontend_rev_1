@@ -3,7 +3,7 @@ export interface BookFormType {
   author: string
   genre: string
   price: number
-  coverImage?: string
+  coverImage: File
   description?: string
   publicationDate?: string
   ISBN?: string

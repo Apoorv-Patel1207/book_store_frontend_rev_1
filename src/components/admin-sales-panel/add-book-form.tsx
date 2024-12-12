@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
   TextField,
@@ -14,6 +16,8 @@ import { GENRES } from "src/constant/genres"
 import { BookFormType } from "src/types/data-types"
 import * as Yup from "yup"
 
+import FileDropzone from "../utility-components/file-dropzone"
+
 interface BookFormProps {
   onSubmit: SubmitHandler<BookFormType>
   isAdmin?: boolean
@@ -26,7 +30,7 @@ const validationSchema = Yup.object().shape({
   price: Yup.number()
     .required("Price is required")
     .min(0, "Price must be a positive number"),
-  coverImage: Yup.string().url("Must be a valid URL").optional(),
+  coverImage: Yup.mixed<File>().required("Cover Image is required"),
   description: Yup.string().optional(),
   publicationDate: Yup.string().optional(),
   language: Yup.string().optional(),
@@ -39,17 +43,20 @@ const validationSchema = Yup.object().shape({
 })
 
 const BookForm = ({ onSubmit, isAdmin }: BookFormProps) => {
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(
+    null,
+  )
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<BookFormType>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       price: 0,
-      coverImage:
-        "https://media.istockphoto.com/id/1460007178/photo/library-books-on-table-and-background-for-studying-learning-and-research-in-education-school.jpg?s=1024x1024&w=is&k=20&c=cuzIXmvKHLpoGxGIft9zCiTw-jeL0Gjp7UNZau0MNkk=",
       description: "",
       publicationDate: new Date().toISOString().split("T")[0],
       language: "English",
@@ -63,6 +70,13 @@ const BookForm = ({ onSubmit, isAdmin }: BookFormProps) => {
   const submitHandler: SubmitHandler<BookFormType> = async (data) => {
     await onSubmit(data)
     reset()
+    setCoverImagePreview(null)
+  }
+
+  const handleFileSelect = (file: File) => {
+    setValue("coverImage", file)
+    const previewUrl = URL.createObjectURL(file)
+    setCoverImagePreview(previewUrl)
   }
 
   return (
@@ -112,16 +126,6 @@ const BookForm = ({ onSubmit, isAdmin }: BookFormProps) => {
             {...register("price")}
             error={!!errors.price}
             helperText={errors.price?.message}
-          />
-        </Grid>
-
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TextField
-            fullWidth
-            label='Cover Image URL'
-            {...register("coverImage")}
-            error={!!errors.coverImage}
-            helperText={errors.coverImage?.message}
           />
         </Grid>
 
@@ -182,6 +186,27 @@ const BookForm = ({ onSubmit, isAdmin }: BookFormProps) => {
             error={!!errors.stockQuantity}
             helperText={errors.stockQuantity?.message}
           />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <FileDropzone
+            errorMessage={errors.coverImage?.message}
+            label='Upload Cover Image'
+            onFileSelect={handleFileSelect}
+          />
+
+          {coverImagePreview && (
+            <img
+              alt='Cover Preview'
+              src={coverImagePreview}
+              style={{
+                width: "100%",
+                maxWidth: "300px",
+                marginTop: "10px",
+                borderRadius: "8px",
+              }}
+            />
+          )}
         </Grid>
 
         <Grid size={{ xs: 12 }}>

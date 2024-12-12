@@ -1,6 +1,6 @@
 import { ApiResponseBook, BookFormType } from "../types/data-types"
 
-const API_BASE_URL = process.env.REACT_APP_API_URL 
+const API_BASE_URL = process.env.REACT_APP_API_URL
 const ENDPOINT = "/books"
 const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
@@ -32,14 +32,20 @@ export const addBook = async (
   book: BookFormType,
   userId: string,
 ): Promise<ApiResponseBook> => {
+  const formData = new FormData()
+
+  for (const [key, value] of Object.entries(book)) {
+    formData.append(key, value)
+  }
+
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       "x-user-id": userId,
     },
-    body: JSON.stringify(book),
+    body: formData,
   })
+
   if (!response.ok) {
     throw new Error("Failed to add book")
   }
