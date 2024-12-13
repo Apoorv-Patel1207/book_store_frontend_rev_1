@@ -1,4 +1,5 @@
-export const formatDate = (dateString: string) => {
+export const formatDate = (dateString: string | undefined) => {
+  if (!dateString) return
   const date = new Date(dateString)
 
   const day = date.getDate()

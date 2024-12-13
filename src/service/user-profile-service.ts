@@ -1,6 +1,6 @@
-import { ApiResponseUserProfile, UserProfile } from "src/types/data-types"
+import { ApiResponseUserProfile, ProfileFormValues } from "src/types/data-types"
 
-const API_BASE_URL = process.env.REACT_APP_API_URL 
+const API_BASE_URL = process.env.REACT_APP_API_URL
 const ENDPOINT = "/users/profile"
 const API_URL = `${API_BASE_URL}${ENDPOINT}`
 
@@ -8,6 +8,7 @@ export const createUserProfile = async (
   userId: string,
   name: string,
   email: string,
+  profileImage?: string,
 ) => {
   const response = await fetch("http://localhost:5000/api/users/profile", {
     method: "POST",
@@ -15,7 +16,7 @@ export const createUserProfile = async (
       "Content-Type": "application/json",
       "x-user-id": userId,
     },
-    body: JSON.stringify({ name, email }),
+    body: JSON.stringify({ name, email, profileImage }),
   })
 
   if (!response.ok) {
@@ -49,16 +50,21 @@ export const getUserProfile = async (
 
 export const updateUserProfile = async (
   userId: string,
-  profileData: UserProfile,
+  profileData: ProfileFormValues,
 ): Promise<ApiResponseUserProfile | null> => {
   try {
+    const formData = new FormData()
+
+    for (const [key, value] of Object.entries(profileData)) {
+      formData.append(key, value)
+    }
+
     const response = await fetch(`${API_URL}/${userId}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
         "x-user-id": userId,
       },
-      body: JSON.stringify(profileData),
+      body: formData,
     })
 
     if (response.ok) {

@@ -4,6 +4,7 @@ import CakeIcon from "@mui/icons-material/Cake"
 import EditIcon from "@mui/icons-material/Edit"
 import EmailIcon from "@mui/icons-material/Email"
 import HomeIcon from "@mui/icons-material/Home"
+import ManIcon from "@mui/icons-material/Man"
 import PhoneIcon from "@mui/icons-material/Phone"
 import {
   Container,
@@ -16,6 +17,7 @@ import {
 import { SubmitHandler } from "react-hook-form"
 import { useUserID } from "src/components/auth/userID"
 import ProfileForm from "src/components/profile/profile-form"
+import { formatDate } from "src/components/utility-components/format-date"
 import PageHeading from "src/components/utility-components/page-headings"
 import {
   getUserProfile,
@@ -68,10 +70,10 @@ const Profile = () => {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        address: data.address || "",
-        profileImage: data.profileImage || "",
-        dob: data.dob || "",
-        gender: data.gender || "",
+        address: data.address,
+        profileImage: data.profileImage,
+        dob: data.dob,
+        gender: data.gender,
       })
 
       if (updatedProfile) {
@@ -144,43 +146,39 @@ const Profile = () => {
                   </IconButton>
                 </Stack>
 
-                <Typography my={1}>{profile?.name || "N/A"}</Typography>
-                <Typography>{profile?.email || "N/A"}</Typography>
+                <Typography my={1}>{profile?.name}</Typography>
+                <Typography>{profile?.email}</Typography>
               </Stack>
 
               <Stack m={4} spacing={2} width='100%'>
                 <Stack alignItems='center' direction='row' spacing={2}>
                   <PhoneIcon sx={{ color: "white" }} />
                   <Typography color='white' variant='body1'>
-                    {profile?.phone || "N/A"}
+                    {profile?.phone}
                   </Typography>
                 </Stack>
-
                 <Stack alignItems='center' direction='row' spacing={2}>
                   <EmailIcon sx={{ color: "white" }} />
                   <Typography color='white' variant='body1'>
-                    {profile?.email || "N/A"}
+                    {profile?.email}
                   </Typography>
                 </Stack>
-
                 <Stack alignItems='center' direction='row' spacing={2}>
                   <CakeIcon sx={{ color: "white" }} />
                   <Typography color='white' variant='body1'>
-                    {profile?.dob.split("T")[0] || "N/A"}
+                    {formatDate(profile?.dob)}
                   </Typography>
                 </Stack>
-
+                <Stack alignItems='center' direction='row' spacing={2}>
+                  <ManIcon sx={{ color: "white" }} />
+                  <Typography color='white' variant='body1'>
+                    {profile?.gender}
+                  </Typography>
+                </Stack>
                 <Stack alignItems='center' direction='row' spacing={2}>
                   <HomeIcon sx={{ color: "white" }} />
                   <Typography color='white' variant='body1'>
-                    {profile?.gender || "N/A"}
-                  </Typography>
-                </Stack>
-
-                <Stack alignItems='center' direction='row' spacing={2}>
-                  <HomeIcon sx={{ color: "white" }} />
-                  <Typography color='white' variant='body1'>
-                    {profile?.address || "N/A"}
+                    {profile?.address}
                   </Typography>
                 </Stack>
               </Stack>

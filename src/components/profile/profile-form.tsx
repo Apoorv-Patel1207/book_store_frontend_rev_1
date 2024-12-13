@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react"
+
 import { yupResolver } from "@hookform/resolvers/yup"
 import {
   TextField,
@@ -17,6 +19,8 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { ApiResponseUserProfile, ProfileFormValues } from "src/types/data-types"
 import * as Yup from "yup"
 
+import FileDropzone from "../utility-components/file-dropzone"
+
 interface ProfileFormProps {
   profile: ApiResponseUserProfile | null
   onSubmit: SubmitHandler<ProfileFormValues>
@@ -31,7 +35,7 @@ const validationSchema = Yup.object().shape({
     .required("Email is required"),
   phone: Yup.string().required("Phone is required"),
   address: Yup.string().optional(),
-  profileImage: Yup.string().url("Must be a valid URL").optional(),
+  profileImage: Yup.mixed<File>().optional(),
   dob: Yup.string().optional(),
   gender: Yup.string().optional(),
 })
@@ -42,10 +46,15 @@ const ProfileForm = ({
   open,
   onClose,
 }: ProfileFormProps) => {
+  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
+    null,
+  )
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<ProfileFormValues>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -53,16 +62,32 @@ const ProfileForm = ({
       email: profile?.email,
       phone: profile?.phone,
       address: profile?.address,
-      profileImage: profile?.profile_image,
       dob: profile?.dob,
-      gender: profile?.gender || "",
+      gender: profile?.gender,
     },
   })
+
+  useEffect(() => {
+    if (profile?.profile_image) {
+      setProfileImagePreview(profile.profile_image)
+    }
+  }, [profile])
+
+  const submitHandler: SubmitHandler<ProfileFormValues> = async (data) => {
+    await onSubmit(data)
+    setProfileImagePreview(null)
+  }
+
+  const handleFileSelect = (file: File) => {
+    setValue("profileImage", file)
+    const previewUrl = URL.createObjectURL(file)
+    setProfileImagePreview(previewUrl)
+  }
 
   return (
     <Dialog fullWidth maxWidth='md' onClose={onClose} open={open}>
       <DialogTitle>Edit Profile</DialogTitle>
-      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(submitHandler)}>
         <DialogContent>
           <Grid container spacing={2} sx={{ color: "white" }}>
             <Grid size={{ xs: 12, sm: 6 }}>
@@ -109,28 +134,29 @@ const ProfileForm = ({
             <Grid size={{ xs: 12, sm: 6 }}>
               <TextField
                 fullWidth
-                label='Profile Image URL'
-                {...register("profileImage")}
-                error={!!errors.profileImage}
-                helperText={errors.profileImage?.message}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                fullWidth
                 label='Date of Birth'
                 type='date'
                 {...register("dob")}
+                defaultValue={profile?.dob ? profile.dob.split("T")[0] : ""}
                 error={!!errors.dob}
                 helperText={errors.dob?.message}
+                slotProps={{ inputLabel: { shrink: true } }}
               />
             </Grid>
 
             <Grid size={{ xs: 12, sm: 6 }}>
               <FormControl error={!!errors.gender} fullWidth>
                 <InputLabel>Gender</InputLabel>
-                <Select {...register("gender")} defaultValue=''>
+                <Select
+                  {...register("gender")}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: { maxHeight: 250 },
+                    },
+                  }}
+                  defaultValue={profile?.gender || ""}
+                  label='Gender'
+                >
                   <MenuItem value=''>Select Gender</MenuItem>
                   <MenuItem value='male'>Male</MenuItem>
                   <MenuItem value='female'>Female</MenuItem>
@@ -140,6 +166,27 @@ const ProfileForm = ({
                   <Typography color='error'>{errors.gender.message}</Typography>
                 )}
               </FormControl>
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <FileDropzone
+                errorMessage={errors.profileImage?.message}
+                label='Upload Cover Image'
+                onFileSelect={handleFileSelect}
+              />
+
+              {profileImagePreview && (
+                <img
+                  alt='Cover Preview'
+                  src={profileImagePreview}
+                  style={{
+                    width: "100%",
+                    maxWidth: "300px",
+                    marginTop: "10px",
+                    borderRadius: "8px",
+                  }}
+                />
+              )}
             </Grid>
           </Grid>
         </DialogContent>

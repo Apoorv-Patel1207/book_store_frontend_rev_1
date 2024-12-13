@@ -44,16 +44,16 @@ export interface CartItem extends ApiResponseBook {
   quantity: number
 }
 
-export interface UserProfile {
-  name: string
-  email: string
-  phone: string
-  address: string
-  profileImage: string
-  dob: string
-  gender: string
-  role?: "admin" | "salesman" | "customer"
-}
+// export interface UserProfile {
+//   name: string
+//   email: string
+//   phone: string
+//   address: string
+//   profileImage: string
+//   dob: string
+//   gender: string
+//   role?: "admin" | "salesman" | "customer"
+// }
 
 export interface ApiResponseUserProfile {
   user_id: string
@@ -74,7 +74,7 @@ export interface ProfileFormValues {
   email: string
   phone: string
   address?: string
-  profileImage?: string
+  profileImage?: File
   dob?: string
   gender?: string
 }

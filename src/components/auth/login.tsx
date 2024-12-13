@@ -32,8 +32,9 @@ const LoginButton = () => {
           } else {
             const newUser = await createUserProfile(
               user.sub,
-              user.name || "",
+              user.nickname || "",
               user.email || "",
+              user.picture,
             )
             setUserData(newUser)
           }
@@ -58,15 +59,13 @@ const LoginButton = () => {
         <>
           <IconButton color='inherit' onClick={navigateToProfile}>
             <Avatar
-              alt={user?.name}
-              src={user?.picture}
+              alt={userData?.name}
+              src={userData?.profile_image}
               sx={{ width: 30, height: 30 }}
             >
-              {user?.name?.[0]}
+              {userData?.name?.[0]}
             </Avatar>
           </IconButton>
-
-         
 
           <IconButton
             color='inherit'
