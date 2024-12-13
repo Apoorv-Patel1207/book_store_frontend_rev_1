@@ -79,6 +79,7 @@ const Profile = () => {
       if (updatedProfile) {
         setProfile(updatedProfile)
         handleCloseEditingDialog()
+        setError(null)
       } else {
         setError("Failed to update user profile.")
       }

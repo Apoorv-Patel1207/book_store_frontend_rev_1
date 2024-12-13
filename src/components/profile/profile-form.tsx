@@ -137,7 +137,7 @@ const ProfileForm = ({
                 label='Date of Birth'
                 type='date'
                 {...register("dob")}
-                defaultValue={profile?.dob ? profile.dob.split("T")[0] : ""}
+                defaultValue={profile?.dob ? profile.dob : ""}
                 error={!!errors.dob}
                 helperText={errors.dob?.message}
                 slotProps={{ inputLabel: { shrink: true } }}
