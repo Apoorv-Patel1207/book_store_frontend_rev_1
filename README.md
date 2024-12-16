@@ -1,70 +1,141 @@
-# Getting Started with Create React App
+# 📚 Book Store App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the **Book Store App**! This full-stack web application lets you
+browse, purchase, and manage books online. With a modern interface and robust
+backend, it ensures a seamless experience for both customers and administrators.
 
-## Available Scripts
+![Book Store Banner](public/images/bookstore_banner.jpg)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🚀 Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 👤 **User Features:**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 🔒 **Authentication:** Secure login and registration using Auth0.
+- 📖 **Book Browsing:** Explore books by genre, title, or author.
+- 🔍 **Search & Filter:** Advanced search and filter capabilities.
+- 🛒 **Cart Management:** Add, update, and remove books from the cart.
+- 📦 **Order Management:** Place orders and view order history.
+- 🧑‍💼 **Profile Management:** Manage personal information, including profile
+  pictures.
 
-### `npm test`
+### 🔧 **Admin Features:**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 🛡️ **Role-Based Access:** Manage book listings.
+- ✅ **Book Approval:** Approve or reject books submitted by salesmen.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🧑‍💻 Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| **Frontend**          | **Backend**          | **Other Tools**    |
+| --------------------- | -------------------- | ------------------ |
+| ⚛️ React (TypeScript) | 🟢 Node.js (Express) | 🐳 Docker          |
+| 💅 Material-UI (MUI)  | 🗄️ PostgreSQL        | 🧹 ESLint |
+| 🚦 React Router       | 🔗 RESTful APIs      | 🔑 UUID for IDs    |
+| 📦 Context API        | 🌐 Fetch API         |                    |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## ⚙️ Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frontend Setup
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Clone the Frontend Repository:**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   git clone https://github.com/Apoorv-Patel1207/book_store_frontend_rev_1.git
+   cd book_store_frontend_rev_1
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. **Install Dependencies:**
 
-## Learn More
+   ```bash
+   npm install
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Set Up Environment Variables:**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   - Create a `.env` file in the root directory.
+   - Add variables for Auth0, PostgreSQL, and other API configurations.
 
-### Code Splitting
+4. **Run the Application:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```bash
+   npm run start:dev
+   ```
 
-### Analyzing the Bundle Size
+5. **Access the App:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   - Visit `http://localhost:3000` in your browser.
 
-### Making a Progressive Web App
+### Backend Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. **Clone the Backend Repository:**
 
-### Advanced Configuration
+   ```bash
+   git clone https://github.com/Apoorv-Patel1207/book_store_backend_rev_1.git
+   cd book_store_backend_rev_1
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. **Install Backend Dependencies:**
 
-### Deployment
+   ```bash
+   npm install
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+3. **Set Up Environment Variables:**
 
-### `npm run build` fails to minify
+   - Create a `.env` file in the backend root directory.
+   - Configure database credentials and API secrets.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. **Run the Backend Server:**
+
+   ```bash
+   npm start
+   ```
+
+---
+
+## 🗃️ Database Schema
+
+### Example Database Tables
+
+| **Table Name** | **Description**       |
+| -------------- | --------------------- |
+| 👥 Users       | Stores user details   |
+| 📚 Books       | Contains book data    |
+| 🛒 Orders      | Manages placed orders |
+| 🛍️ Cart        | Tracks cart contents  |
+
+---
+
+## 🚢 Deployment
+
+- 🐳 Use Docker for containerized deployment.
+- 🗄️ Configure PostgreSQL and the backend API service.
+
+---
+
+## 🌟 Future Enhancements
+
+- 💳 **Payment Integration:** Add payment gateway support.
+- 🔔 **Notifications:** Implement order and shipping notifications.
+- 🎨 **Enhanced UI:** Further improve responsiveness and accessibility.
+
+---
+
+## 👥 Contributors
+
+- **Apoorv Patel** - Developer
+
+---
+
+💫 Special Thanks
+
+- **Rishi Anand** - Mentor & Guide
+
+---
+
+**🎉 Thank you for exploring the Book Store App!**
