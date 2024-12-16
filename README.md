@@ -120,7 +120,7 @@ backend, it ensures a seamless experience for both customers and administrators.
 
 ## 🌟 Future Enhancements
 
-- 🎨 **Enhanced UI:** Further improve responsiveness and accessibility.
+- 🎨 **Enhanced UI:**  Polished Interface: Enhance design and user experience.
 
 ---
 
