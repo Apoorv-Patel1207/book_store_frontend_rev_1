@@ -120,6 +120,7 @@ const Profile = () => {
                 <Stack
                   direction='row'
                   justifyContent='center'
+                  mb={1}
                   position='relative'
                 >
                   <Avatar
@@ -147,7 +148,9 @@ const Profile = () => {
                   </IconButton>
                 </Stack>
 
-                <Typography my={1}>{profile?.name}</Typography>
+                {profile?.name !== profile?.email && (
+                  <Typography mb={1}>{profile?.name}</Typography>
+                )}
                 <Typography>{profile?.email}</Typography>
               </Stack>
 
