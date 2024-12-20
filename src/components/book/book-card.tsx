@@ -164,6 +164,7 @@ const BookCard = (props: BookCardProps) => {
             component='img'
             height='200'
             image={book.cover_image}
+            loading='lazy'
             sx={{
               transition: "transform 0.3s",
               "&:hover": {

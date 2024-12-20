@@ -24,6 +24,7 @@
     "start": "WATCHPACK_POLLING=true react-scripts start",
     "start:dev": "react-scripts start",
     "build": "react-scripts build && eslint .",
+     "serve": "npm run build && npx serve -s build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "rm -rf node_modules && rm -rf package-lock.json",
