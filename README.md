@@ -120,9 +120,7 @@ backend, it ensures a seamless experience for both customers and administrators.
 
 ## 🌟 Future Enhancements
 
-- 💳 **Payment Integration:** Add payment gateway support.
-- 🔔 **Notifications:** Implement order and shipping notifications.
-- 🎨 **Enhanced UI:** Further improve responsiveness and accessibility.
+- 🎨 **Enhanced UI:**  Polished Interface: Enhance design and user experience.
 
 ---
 
